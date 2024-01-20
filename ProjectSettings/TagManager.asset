@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - BossArea
+  - Enemy
+  - EnemyProjectile
   layers:
   - Default
   - TransparentFX
