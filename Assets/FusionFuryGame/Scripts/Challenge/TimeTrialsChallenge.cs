@@ -41,6 +41,8 @@ namespace FusionFuryGame
             {
                 RewardManager.Instance.GrantReward(commonData);
                 commonData.isCompleted = true;
+                SaveManager.SaveData(challengeSavedKey, JsonUtility.ToJson(commonData));
+
             }
             else
             {

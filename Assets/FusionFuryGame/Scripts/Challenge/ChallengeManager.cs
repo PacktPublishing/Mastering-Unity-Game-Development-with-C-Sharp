@@ -26,6 +26,7 @@ namespace FusionFuryGame
         {
             if (challengeDictionary.TryGetValue(challengeType, out BaseChallenge challengeScript))
             {
+                JsonUtility.FromJsonOverwrite(SaveManager.LoadData(challengeScript.challengeSavedKey), challengeScript.commonData);
                 if (!challengeScript.commonData.isCompleted)
                 {
                     SetCurrentChallenge(challengeScript);
@@ -56,11 +57,5 @@ namespace FusionFuryGame
         }
     }
 
-    [Serializable]
-    public class CommonChallengeData
-    {
-        public bool isCompleted;
-        public RewardType rewardType; // Type of reward
-        public int rewardAmount;      // Amount or value of the reward
-    }
+    
 }

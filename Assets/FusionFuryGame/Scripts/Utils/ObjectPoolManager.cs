@@ -31,6 +31,7 @@ namespace FusionFuryGame
         {
             obj.SetActive(false);
             objectPools[tag].Enqueue(obj);
+
         }
 
         // Create an object pool for a specific prefab

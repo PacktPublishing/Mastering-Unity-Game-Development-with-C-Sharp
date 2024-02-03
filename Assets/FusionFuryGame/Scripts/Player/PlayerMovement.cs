@@ -6,10 +6,7 @@ namespace FusionFuryGame
 {
     public class PlayerMovement : MonoBehaviour
     {
-        public float moveSpeed = 5f;
-        public float jumpForce = 5f;
-        public float dashForce = 10f;
-        public float dashCooldown = 2f;
+        public PlayerStats playerStats;
 
         public Transform groundChecker;
         public LayerMask groundLayer;
@@ -42,7 +39,7 @@ namespace FusionFuryGame
 
         private void MovePlayer()
         {
-            Vector3 movement = new Vector3(movementVector.x , 0f , movementVector.y) * moveSpeed * Time.deltaTime;
+            Vector3 movement = new Vector3(movementVector.x , 0f , movementVector.y) * playerStats.MoveSpeed * Time.deltaTime;
             transform.Translate(movement);
         }
 
@@ -50,7 +47,7 @@ namespace FusionFuryGame
         {
             if (isGrounded)
             {
-                playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                playerRigidbody.AddForce(Vector3.up * playerStats.JumpForce, ForceMode.Impulse);
                 isGrounded = false;
             }
         }
@@ -60,10 +57,10 @@ namespace FusionFuryGame
             if (canDash)
             {        
                 Vector3 dashVector = new Vector3(movementVector.x, 0f, movementVector.y).normalized;
-                playerRigidbody.AddForce(dashVector * dashForce, ForceMode.Impulse);
+                playerRigidbody.AddForce(dashVector * playerStats.DashForce, ForceMode.Impulse);
 
                 canDash = false;
-                Invoke(nameof(ResetDash), dashCooldown);
+                Invoke(nameof(ResetDash), playerStats.DashCooldown);
             }
         }
 

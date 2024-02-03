@@ -8,7 +8,7 @@ namespace FusionFuryGame
     {
         public int totalWaves = 5;  // Adjust as needed
         private int currentWave = 0;
-  
+        [ContextMenu("StartChallenge")]
         public override void StartChallenge()
         {
             if (!commonData.isCompleted)
@@ -37,6 +37,8 @@ namespace FusionFuryGame
             {
                 RewardManager.Instance.GrantReward(commonData);
                 commonData.isCompleted = true;
+                SaveManager.SaveData(challengeSavedKey, JsonUtility.ToJson(commonData));
+                
             }
             else
             {
