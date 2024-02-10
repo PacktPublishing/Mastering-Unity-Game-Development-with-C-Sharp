@@ -42,7 +42,10 @@ namespace FusionFuryGame
             }
         }
 
-        
 
+        private void OnCollisionExit(Collision collision)
+        {
+            //Start To heal the player 
+        }
     }
 }
