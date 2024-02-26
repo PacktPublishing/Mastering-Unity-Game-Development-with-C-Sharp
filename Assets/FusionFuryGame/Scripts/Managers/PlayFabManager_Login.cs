@@ -1,13 +1,12 @@
 using PlayFab.ClientModels;
 using PlayFab;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public partial class PlayFabManager 
+public partial class PlayFabManager
 {
     private LoginManager loginManager;
     private string savedEmailKey = "SavedEmail";
+    private string userEmail;
     private void Start()
     {
         loginManager = new LoginManager();
@@ -24,6 +23,9 @@ public partial class PlayFabManager
     // Example method for triggering email login
     public void EmailLoginButtonClicked(string email, string password)
     {
+        userEmail = email;
+
+
         loginManager.SetLoginMethod(new EmailLogin(email, password));
         loginManager.Login(OnLoginSuccess, OnLoginFailure);
     }
@@ -41,7 +43,9 @@ public partial class PlayFabManager
         // You can handle success here, such as loading player data
 
         // Save email for future auto-login
-        PlayerPrefs.SetString(savedEmailKey, result.InfoResultPayload.AccountInfo.OpenIdInfo[0].ConnectionId);
+        if (!string.IsNullOrEmpty(userEmail))
+            PlayerPrefs.SetString(savedEmailKey, userEmail);
+
         // Load player data
         LoadPlayerData(result.PlayFabId);
     }
