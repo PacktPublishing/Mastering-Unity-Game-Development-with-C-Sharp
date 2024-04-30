@@ -4,40 +4,79 @@ using UnityEngine;
 
 namespace FusionFuryGame
 {
-    public class ObjectPoolManager : Singlton<ObjectPoolManager>
+    public class ObjectPoolManager : MonoBehaviour
     {
+        // Static instance of the ObjectPoolManager
+        private static ObjectPoolManager instance;
+
+        // Property to access the ObjectPoolManager instance
+        public static ObjectPoolManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    // Find the ObjectPoolManager instance in the scene
+                    instance = FindObjectOfType<ObjectPoolManager>();
+
+                    // If not found, create a new GameObject and add the ObjectPoolManager script to it
+                    if (instance == null)
+                    {
+                        GameObject obj = new GameObject("ObjectPoolManager");
+                        instance = obj.AddComponent<ObjectPoolManager>();
+                    }
+                }
+                return instance;
+            }
+        }
+
+
+        // Optional: Ensure the ObjectPoolManager persists between scenes
+        private void Awake()
+        {
+            if (instance != null && instance != this)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+        }
+
         // Define a dictionary to store object pools
         private Dictionary<string, Queue<GameObject>> objectPools = new Dictionary<string, Queue<GameObject>>();
 
-        // Create or retrieve an object from the pool based on the tag
-        public GameObject GetPooledObject(string tag)
+        // Create or retrieve an object from the pool based on the name of it
+        public GameObject GetPooledObject(string objectName)
         {
-            if (objectPools.ContainsKey(tag))
+            if (objectPools.ContainsKey(objectName))
             {
-                if (objectPools[tag].Count > 0)
+                if (objectPools[objectName].Count > 0)
                 {
-                    GameObject obj = objectPools[tag].Dequeue();
+                    GameObject obj = objectPools[objectName].Dequeue();
                     obj.SetActive(true);
                     return obj;
                 }
             }
 
-            Debug.LogWarning("No available object in the pool with tag: " + tag);
+            Debug.LogWarning("No available object in the pool with name: " + objectName);
             return null;
         }
 
         // Return an object to the pool
-        public void ReturnToPool(string tag, GameObject obj)
+        public void ReturnToPool(string objectName, GameObject obj)
         {
             obj.SetActive(false);
-            objectPools[tag].Enqueue(obj);
+            objectPools[objectName].Enqueue(obj);
 
         }
 
-        // Create an object pool for a specific prefab
-        public void CreateObjectPool(GameObject prefab, int poolSize)
+        // Create an object pool for a specific prefab so I can dynamically add object to the pool in runtime
+        public void CreateObjectPool(GameObject prefab, int poolSize, string objectName)
         {
-            string tag = prefab.tag;
+            string tag = objectName;
 
             if (!objectPools.ContainsKey(tag))
             {

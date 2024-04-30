@@ -1,24 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
 
 namespace FusionFuryGame
 {
-    public abstract class BaseEnemy : MonoBehaviour, IDamage , IHealth
+
+    [RequireComponent(typeof(EnemyHealth) , typeof(EnemyAnimations) , typeof(EnemyShoot)) ]
+    [RequireComponent(typeof(EnemyCollision))]
+    public abstract class BaseEnemy : MonoBehaviour  
     {
-        private IDamage playerDamage;
-        [SerializeField] float damage; //when the enemy collide with the player
-        [SerializeField] float fireDamage; //when the enemy shoot the player
-        [SerializeField] float startingMaxHealth = 100;  // Set a default starting maximum health for the Enemy
-        [SerializeField] float healAmount = 5f;    // Amount of healing per interval
-
-        [SerializeField] float healInterval = 2f;  // Time interval for healing
-
-        private WaitForSeconds healIntervalWait;  // Reusable WaitForSeconds instance
-        private Coroutine healOverTimeCoroutine;
-
-        public BaseWeapon attachedWeapon;  // Reference to the attacted Weapon
         public Transform player;
         [HideInInspector] public NavMeshAgent navMeshAgent;
 
@@ -34,33 +25,12 @@ namespace FusionFuryGame
 
         public float attackRange = 5f;
 
-
-        private float maxHealth;
-        private float currentHealth;
         [SerializeField] internal float chaseSpeed;
         [SerializeField] internal float rotationSpeed;
 
-
-        private Animator animator;
-        public float MaxHealth
-        {
-            get { return maxHealth; }
-            set { maxHealth = value; }
-        }
-
-        public float CurrentHealth
-        {
-            get { return currentHealth; }
-            set
-            {
-                currentHealth = Mathf.Clamp(value, 0, MaxHealth);
-                if (currentHealth <= 0)
-                {
-                    // Trigger death logic if health reaches zero
-                    TransitionToState(deathState);
-                }
-            }
-        }
+        internal EnemyAnimations animationComponent;
+        internal EnemyShoot shootComponent;
+        internal EnemyHealth healthComponent;
 
         protected virtual void Start()
         {
@@ -77,32 +47,17 @@ namespace FusionFuryGame
             // Get references
             player = GameObject.FindGameObjectWithTag("Player").transform;
             navMeshAgent = GetComponent<NavMeshAgent>();
-            animator = GetComponent<Animator>();    
-
-            SetMaxHealth();  // Set initial max health
-            healIntervalWait = new WaitForSeconds(healInterval);
-            StartHealingOverTime();
+            animationComponent = GetComponent<EnemyAnimations>();
+            shootComponent = GetComponent<EnemyShoot>();
+            healthComponent = GetComponent<EnemyHealth>();
+            healthComponent.onEnemyDied += OnDied;
+           
         }
 
         protected virtual void Update()
         {
             // Update the current state
             currentState.UpdateState(this);
-        }
-
-        public void FireProjectile()
-        {
-            attachedWeapon.Shoot(damage);
-        }
-
-        public void StartAttackAnimations()
-        {
-            animator.SetBool("IsAttacking", true);
-        }
-
-        public void StopAttackAnimations()
-        {
-            animator.SetBool("IsAttacking", false);
         }
 
         public bool PlayerInSight()
@@ -168,53 +123,12 @@ namespace FusionFuryGame
             currentState?.EnterState(this);
         }
 
-        public float GetDamageValue()
+        private void OnDied()
         {
-            // You can implement more sophisticated logic here based on enemy stats
-            return damage; 
+            healthComponent.onEnemyDied -= OnDied;
+            // Trigger death logic if health reaches zero
+            TransitionToState(deathState);
         }
 
-        //we can also make layers for them and reduce calculations of collision in layer matrix in project settings 
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (collision.gameObject.CompareTag("PlayerProjectile"))
-            {
-                if (collision.gameObject.TryGetComponent(out playerDamage))
-                {
-                    TakeDamage(playerDamage.GetDamageValue());
-                }
-            }
-        }
-
-        public void TakeDamage(float damage)
-        {
-            // Implement logic to handle taking damage
-            CurrentHealth -= damage;
-        }
-
-        public void SetMaxHealth()
-        {
-            MaxHealth = startingMaxHealth;
-        }
-
-        //we can also just heal in some states only 
-        public void Heal()
-        {
-            CurrentHealth += healAmount;
-            CurrentHealth = Mathf.Min(CurrentHealth, MaxHealth);
-        }
-        private void StartHealingOverTime()
-        {
-            healOverTimeCoroutine = StartCoroutine(HealOverTime());
-        }
-
-        private IEnumerator HealOverTime()
-        {
-            while (true)
-            {
-                yield return healIntervalWait;
-                Heal();
-            }
-        }
     }
 }

@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public int levelNumber = 1;
-
 
     private void OnEnable()
     {
@@ -15,27 +13,24 @@ public class LevelManager : MonoBehaviour
 
     private void GameAnalytics_onInitialize(object sender, bool e)
     {
-        Debug.Log("Game Analytics initialized " + GameAnalytics.Initialized);
-
-        
+        Debug.Log("Game Analytics State " + GameAnalytics.Initialized);
+        GameAnalytics.NewDesignEvent("Game Analytics Initialized ", 5);
     }
 
     private void OnDisable()
     {
         GameAnalytics.onInitialize -= GameAnalytics_onInitialize;
+
     }
     private void Start()
     {
         GameAnalytics.Initialize();
-        
     }
-    [ContextMenu("LevelCompleted")]
+
     // Call this method when the player completes a level
-    public void LevelCompleted()
+    public void LevelCompleted(int levelNum)
     {
-        levelNumber++;
         // Track the event using GameAnalytics
-        GameAnalytics.NewDesignEvent("LevelComplete", levelNumber);
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "AD");
+        GameAnalytics.NewDesignEvent("LevelComplete", levelNum);
     }
 }

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7431679545715735401
+--- !u!114 &-8620326570862972053
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cd7ae6bb1f23a043b28272a5af0c308, type: 3}
-  m_Name: DistanceColorPass
+  m_Script: {fileID: 11500000, guid: 68cdb2f5dd731ae49854e689cda9993e, type: 3}
+  m_Name: OutlineEffect
   m_EditorClassIdentifier: 
   m_Active: 1
-  material: {fileID: 2100000, guid: 5e658d035f72158479292c23d45b6be6, type: 2}
+  outlineMaterials:
+  - {fileID: 2100000, guid: 4280d495e2871154fb9c8509db0a944c, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31,8 +32,8 @@ MonoBehaviour:
       type: 3}
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
-  - {fileID: -7431679545715735401}
-  m_RendererFeatureMap: 97c413f1d35edd98
+  - {fileID: -8620326570862972053}
+  m_RendererFeatureMap: 6bf3d9ffa7725e88
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -72,6 +73,6 @@ MonoBehaviour:
   m_ShadowTransparentReceive: 1
   m_RenderingMode: 0
   m_DepthPrimingMode: 0
-  m_CopyDepthMode: 1
+  m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1

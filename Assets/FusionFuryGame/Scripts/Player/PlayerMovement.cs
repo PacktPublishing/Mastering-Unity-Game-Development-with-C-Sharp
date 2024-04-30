@@ -6,6 +6,10 @@ namespace FusionFuryGame
 {
     public class PlayerMovement : MonoBehaviour
     {
+
+
+
+
         public PlayerStats playerStats;
 
         public Transform groundChecker;

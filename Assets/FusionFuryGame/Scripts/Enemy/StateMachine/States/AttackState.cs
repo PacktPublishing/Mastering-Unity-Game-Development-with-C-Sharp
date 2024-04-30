@@ -9,9 +9,9 @@ namespace FusionFuryGame
         private float attackTimer;  // Timer to control the attack rate
         private float timeBetweenAttacks = 1.5f;  // Adjust as needed based on your game's requirements
 
-        public void EnterState(BaseEnemy enemy)
+        public void EnterState(BaseEnemy baseEnemy)
         {
-            enemy.StartAttackAnimations();
+            baseEnemy.animationComponent.StartAttackAnimations();
             attackTimer = 0f;
         }
 
@@ -31,7 +31,7 @@ namespace FusionFuryGame
 
         public void ExitState(BaseEnemy enemy)
         {
-            enemy.StopAttackAnimations();
+            enemy.animationComponent.StopAttackAnimations();
         }
 
         private void LookAtPlayer(BaseEnemy enemy)
@@ -45,7 +45,7 @@ namespace FusionFuryGame
 
         private void AttackPlayer(BaseEnemy enemy)
         {
-            enemy.FireProjectile();
+            enemy.shootComponent.FireProjectile();
         }
     }
 }

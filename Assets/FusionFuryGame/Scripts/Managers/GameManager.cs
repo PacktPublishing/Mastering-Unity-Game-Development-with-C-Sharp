@@ -9,6 +9,7 @@ namespace FusionFuryGame
         public PlayerData playerData;
         public GameSettings gameSettings;
 
+        #region Unity CallBacks
         private void Start()
         {
             LoadGameData();
@@ -16,8 +17,8 @@ namespace FusionFuryGame
         private void OnApplicationQuit()
         {
             SaveGameData();
-
-        }
+        } 
+        #endregion
 
 
         private void LoadGameData()
