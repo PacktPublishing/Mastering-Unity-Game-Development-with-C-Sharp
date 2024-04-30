@@ -45,7 +45,7 @@ namespace FusionFuryGame
 
         private void AttackPlayer(BaseEnemy enemy)
         {
-            enemy.shootComponent.FireProjectile();
+            enemy.shootComponent.FireShot();
         }
     }
 }
