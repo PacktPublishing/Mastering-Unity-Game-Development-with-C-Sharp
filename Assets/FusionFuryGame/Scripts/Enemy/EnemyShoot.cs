@@ -8,10 +8,9 @@ namespace FusionFuryGame
 
         public BaseWeapon attachedWeapon;  // Reference to the attacted Weapon
         [SerializeField] float fireDamage; //when the enemy shoot the player
-        public void FireProjectile()
+        public void FireShot()
         {
-           // attachedWeapon.Shoot(fireDamage);
-            
+            attachedWeapon.Shoot(fireDamage);
         }
 
         public float GetDamageValue()
