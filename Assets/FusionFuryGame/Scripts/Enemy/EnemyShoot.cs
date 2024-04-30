@@ -10,7 +10,8 @@ namespace FusionFuryGame
         [SerializeField] float fireDamage; //when the enemy shoot the player
         public void FireProjectile()
         {
-            attachedWeapon.Shoot(fireDamage);
+           // attachedWeapon.Shoot(fireDamage);
+            
         }
 
         public float GetDamageValue()
