@@ -4,6 +4,8 @@ using UnityEngine.AI;
 
 namespace Chapter4
 {
+    [RequireComponent(typeof(EnemyHealth), typeof(EnemyAnimations), typeof(EnemyShoot))]
+    [RequireComponent(typeof(EnemyCollision))]
     public abstract class BaseEnemy : MonoBehaviour
     {
         public Transform player;
