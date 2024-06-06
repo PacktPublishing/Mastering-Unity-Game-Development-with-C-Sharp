@@ -6,13 +6,12 @@ namespace FusionFuryGame
 {
     public class AttackState : IEnemyState
     {
-        private float attackTimer;  // Timer to control the attack rate
-        private float timeBetweenAttacks = 1.5f;  // Adjust as needed based on your game's requirements
+        public float timeBetweenAttacks = 2f; // Time between attacks in seconds
+        private float lastAttackTime = -Mathf.Infinity;
 
         public void EnterState(BaseEnemy baseEnemy)
         {
-            baseEnemy.animationComponent.StartAttackAnimations();
-            attackTimer = 0f;
+            baseEnemy.animationComponent.StartAttackAnimations();  
         }
 
         public void UpdateState(BaseEnemy enemy)
@@ -20,17 +19,22 @@ namespace FusionFuryGame
             
             LookAtPlayer(enemy);
 
-            attackTimer += Time.deltaTime;
-
-            if (attackTimer >= timeBetweenAttacks)
+            // Check if enough time has passed since the last attack
+            if (Time.time >= lastAttackTime + timeBetweenAttacks)
             {
+                // Execute the attack logic
                 AttackPlayer(enemy);
-                attackTimer = 0f;  // Reset the timer after attacking
+
+                // Update the last attack time to the current time
+                lastAttackTime = Time.time;
             }
         }
 
+
+
         public void ExitState(BaseEnemy enemy)
         {
+           
             enemy.animationComponent.StopAttackAnimations();
         }
 

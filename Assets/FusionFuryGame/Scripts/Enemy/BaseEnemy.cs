@@ -128,6 +128,7 @@ namespace FusionFuryGame
             healthComponent.onEnemyDied -= OnDied;
             // Trigger death logic if health reaches zero
             TransitionToState(deathState);
+            Destroy(gameObject);
         }
 
     }

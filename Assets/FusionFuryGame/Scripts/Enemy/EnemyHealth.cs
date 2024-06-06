@@ -12,7 +12,7 @@ namespace FusionFuryGame
 
         [SerializeField] float healAmount = 5f;    // Amount of healing per interval
 
-        [SerializeField] float healInterval = 2f;  // Time interval for healing
+        [SerializeField] float healInterval = 5f;  // Time interval for healing
 
         private WaitForSeconds healIntervalWait;  // Reusable WaitForSeconds instance
         private Coroutine healOverTimeCoroutine;
@@ -30,8 +30,10 @@ namespace FusionFuryGame
             set
             {
                 currentHealth = Mathf.Clamp(value, 0, MaxHealth);
+                Debug.Log("Set Health " + currentHealth);
                 if (currentHealth <= 0)
                 {
+                    Debug.Log("OnEnemy Died ");
                     onEnemyDied.Invoke();
                 }
             }
@@ -46,10 +48,12 @@ namespace FusionFuryGame
         public void SetMaxHealth()
         {
             MaxHealth = startingMaxHealth;
+            currentHealth = MaxHealth;
         }
 
         public void TakeDamage(float damage)
         {
+            Debug.Log("Taking Damage: " + damage);
             // Implement logic to handle taking damage
             CurrentHealth -= damage;
         }

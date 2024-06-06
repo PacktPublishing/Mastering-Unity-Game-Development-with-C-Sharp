@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace FusionFuryGame
@@ -8,7 +9,7 @@ namespace FusionFuryGame
     {
         public void EnterState(BaseEnemy enemy)
         {
-
+            //Set Effects 
         }
 
         public void ExitState(BaseEnemy enemy)

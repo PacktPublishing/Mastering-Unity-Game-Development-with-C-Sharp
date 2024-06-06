@@ -53,15 +53,20 @@ namespace FusionFuryGame
         {
             if (objectPools.ContainsKey(objectName))
             {
-                if (objectPools[objectName].Count > 0)
+                while (objectPools[objectName].Count > 0)
                 {
                     GameObject obj = objectPools[objectName].Dequeue();
-                    obj.SetActive(true);
-                    return obj;
+                    if (obj && !obj.activeInHierarchy) // Check if the object is not active in the hierarchy
+                    {
+                        obj.SetActive(true);
+                        return obj;
+                    }
                 }
+                // If no inactive objects are available, extend the pool and return a new object
+                return ExtendPool(objectName, 1);
             }
 
-            Debug.LogWarning("No available object in the pool with name: " + objectName);
+            Debug.LogWarning("No object pool exists with the name: " + objectName);
             return null;
         }
 
@@ -74,7 +79,7 @@ namespace FusionFuryGame
         }
 
         // Create an object pool for a specific prefab so I can dynamically add object to the pool in runtime
-        public void CreateObjectPool(GameObject prefab, int poolSize, string objectName)
+        public void CreateObjectPool(GameObject prefab, int poolSize, string objectName, Transform parent)
         {
             string tag = objectName;
 
@@ -84,7 +89,7 @@ namespace FusionFuryGame
 
                 for (int i = 0; i < poolSize; i++)
                 {
-                    GameObject obj = Instantiate(prefab);
+                    GameObject obj = Instantiate(prefab, parent);
                     obj.SetActive(false);
                     objectPools[tag].Enqueue(obj);
                 }
@@ -92,6 +97,29 @@ namespace FusionFuryGame
             else
             {
                 Debug.LogWarning("Object pool with tag " + tag + " already exists.");
+            }
+        }
+
+
+        private GameObject ExtendPool(string objectName, int extendSize)
+        {
+            string tag = objectName;
+
+            if (objectPools.ContainsKey(tag))
+            {
+                for (int i = 0; i < extendSize; i++)
+                {
+                    GameObject obj = Instantiate(objectPools[tag].Peek().gameObject, objectPools[tag].Peek().transform.parent);
+                    obj.SetActive(false);
+                    objectPools[tag].Enqueue(obj);
+                }
+
+                return objectPools[tag].Dequeue(); // Return an object from the pool
+            }
+            else
+            {
+                Debug.LogWarning("Object pool with tag " + tag + " does not exist.");
+                return null;
             }
         }
     }

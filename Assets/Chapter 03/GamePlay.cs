@@ -62,6 +62,15 @@ public partial class @GamePlay: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""9d7366b2-282d-4430-9653-acdcb1b77fc0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -207,6 +216,17 @@ public partial class @GamePlay: IInputActionCollection2, IDisposable
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a6d3cf53-0fcb-4f6f-ba91-9a3dcacbc2eb"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -219,6 +239,7 @@ public partial class @GamePlay: IInputActionCollection2, IDisposable
         m_GamePlayMap_Jump = m_GamePlayMap.FindAction("Jump", throwIfNotFound: true);
         m_GamePlayMap_Dash = m_GamePlayMap.FindAction("Dash", throwIfNotFound: true);
         m_GamePlayMap_Shoot = m_GamePlayMap.FindAction("Shoot", throwIfNotFound: true);
+        m_GamePlayMap_Reload = m_GamePlayMap.FindAction("Reload", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -284,6 +305,7 @@ public partial class @GamePlay: IInputActionCollection2, IDisposable
     private readonly InputAction m_GamePlayMap_Jump;
     private readonly InputAction m_GamePlayMap_Dash;
     private readonly InputAction m_GamePlayMap_Shoot;
+    private readonly InputAction m_GamePlayMap_Reload;
     public struct GamePlayMapActions
     {
         private @GamePlay m_Wrapper;
@@ -292,6 +314,7 @@ public partial class @GamePlay: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_GamePlayMap_Jump;
         public InputAction @Dash => m_Wrapper.m_GamePlayMap_Dash;
         public InputAction @Shoot => m_Wrapper.m_GamePlayMap_Shoot;
+        public InputAction @Reload => m_Wrapper.m_GamePlayMap_Reload;
         public InputActionMap Get() { return m_Wrapper.m_GamePlayMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -313,6 +336,9 @@ public partial class @GamePlay: IInputActionCollection2, IDisposable
             @Shoot.started += instance.OnShoot;
             @Shoot.performed += instance.OnShoot;
             @Shoot.canceled += instance.OnShoot;
+            @Reload.started += instance.OnReload;
+            @Reload.performed += instance.OnReload;
+            @Reload.canceled += instance.OnReload;
         }
 
         private void UnregisterCallbacks(IGamePlayMapActions instance)
@@ -329,6 +355,9 @@ public partial class @GamePlay: IInputActionCollection2, IDisposable
             @Shoot.started -= instance.OnShoot;
             @Shoot.performed -= instance.OnShoot;
             @Shoot.canceled -= instance.OnShoot;
+            @Reload.started -= instance.OnReload;
+            @Reload.performed -= instance.OnReload;
+            @Reload.canceled -= instance.OnReload;
         }
 
         public void RemoveCallbacks(IGamePlayMapActions instance)
@@ -352,5 +381,6 @@ public partial class @GamePlay: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
     }
 }

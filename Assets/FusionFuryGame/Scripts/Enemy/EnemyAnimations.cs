@@ -8,18 +8,18 @@ namespace FusionFuryGame
 
         private void Start()
         {
-            animator = GetComponent<Animator>();
+            //animator = GetComponent<Animator>();
         }
 
 
         public void StartAttackAnimations()
         {
-            animator.SetBool("IsAttacking", true);
+            //animator.SetBool("IsAttacking", true);
         }
 
         public void StopAttackAnimations()
         {
-            animator.SetBool("IsAttacking", false);
+            //animator.SetBool("IsAttacking", false);
         }
 
     }

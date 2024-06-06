@@ -10,7 +10,7 @@ namespace FusionFuryGame
     {
         public static UnityAction onPlayerDied = delegate { };
         public float startingMaxHealth = 100;  // Set a default starting maximum health for the player
-
+        private float currentHealth;
 
         public float healInterval = 2f;  // Time interval for healing
         public float healAmount = 5f;    // Amount of healing per interval
@@ -18,8 +18,22 @@ namespace FusionFuryGame
         private WaitForSeconds healIntervalWait;  // Reusable WaitForSeconds instance
         private Coroutine healOverTimeCoroutine;
         public float MaxHealth { get; set; }
-        public float CurrentHealth { get; set; }
-
+       
+        public float CurrentHealth
+        {
+            get { return currentHealth; }
+            set
+            {
+                currentHealth = Mathf.Clamp(value, 0, MaxHealth);
+                Debug.Log("Set Health " + currentHealth);
+                if (currentHealth <= 0)
+                {
+                    Debug.Log("OnPlayer Died ");
+                    onPlayerDied.Invoke();
+                    Destroy(gameObject);
+                }
+            }
+        }
         void OnDestroy()
         {
             // Ensure to stop the healing coroutine when the object is destroyed
@@ -38,15 +52,12 @@ namespace FusionFuryGame
         {
             // Implement logic to handle taking damage
             CurrentHealth -= damage;
-
-            // Check for death or other actions based on health status
-            if (CurrentHealth <= 0) onPlayerDied.Invoke();
         }
 
         public void SetMaxHealth()
         {
             MaxHealth = startingMaxHealth;
-
+            currentHealth = MaxHealth;
             // Implement logic to calculate and set the actual MaxHealth based on game progress and levels
         }
 

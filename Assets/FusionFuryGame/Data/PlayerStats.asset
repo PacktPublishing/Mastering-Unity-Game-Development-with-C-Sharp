@@ -16,3 +16,4 @@ MonoBehaviour:
   jumpForce: 5
   dashForce: 10
   dashCooldown: 2
+  rotationSpeed: 50

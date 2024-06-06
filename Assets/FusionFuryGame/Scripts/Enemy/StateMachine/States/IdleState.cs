@@ -6,7 +6,7 @@ namespace FusionFuryGame
 {
     public class IdleState : IEnemyState
     {
-        private float idleTime = 3f; // Set the duration for which the enemy stays idle
+        private float idleTime = 0.2f; // Set the duration for which the enemy stays idle
         private float timer; // Timer to track the idle time
         public void EnterState(BaseEnemy enemy)
         {

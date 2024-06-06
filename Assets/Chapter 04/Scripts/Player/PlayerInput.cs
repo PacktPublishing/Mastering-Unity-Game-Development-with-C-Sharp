@@ -51,6 +51,11 @@ namespace Chapter4
             if (context.phase == InputActionPhase.Started)
                 onShoot.Invoke();
         }
+
+        public void OnReload(InputAction.CallbackContext context)
+        {
+            
+        }
     }
 
 }

@@ -13,7 +13,7 @@ namespace FusionFuryGame
         public static UnityAction onDash = delegate { };
         public static UnityAction<Vector2> onMovement = delegate { };
         public static UnityAction onShoot = delegate { };
-
+        public static UnityAction onReload = delegate { };
         private void OnEnable()
         {
             if (gameplayControls == null)
@@ -51,6 +51,12 @@ namespace FusionFuryGame
         {
             if (context.phase == InputActionPhase.Started)
                 onShoot.Invoke();
+        }
+
+        public void OnReload(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                onReload.Invoke();
         }
     }
 }

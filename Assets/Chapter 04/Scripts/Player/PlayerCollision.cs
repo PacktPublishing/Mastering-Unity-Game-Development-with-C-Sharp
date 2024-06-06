@@ -19,11 +19,10 @@ namespace Chapter4
                 if (collision.gameObject.TryGetComponent(out enemyDamage))
                 {
                     playerHealth.TakeDamage(enemyDamage.GetDamageValue());
-
                 }
-
             }
 
         }
+
     }
 }

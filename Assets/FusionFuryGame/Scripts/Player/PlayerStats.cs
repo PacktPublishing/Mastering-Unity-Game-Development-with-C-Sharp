@@ -12,10 +12,12 @@ namespace FusionFuryGame
         [SerializeField] float jumpForce = 5f;
         [SerializeField] float dashForce = 10f;
         [SerializeField] float dashCooldown = 2f;
+        [SerializeField] float rotationSpeed = 2f;
 
         public float MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
         public float JumpForce { get => jumpForce; set => jumpForce = value; }
         public float DashForce { get => dashForce; set => dashForce = value; }
         public float DashCooldown { get => dashCooldown; set => dashCooldown = value; }
+        public float RotationSpeed { get => rotationSpeed; set => rotationSpeed = value; }
     }
 }
