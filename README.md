@@ -36,21 +36,21 @@ The code will look like the following:
 
 This book is designed for game developers, professional gamers, and game development enthusiasts who have prior experience with Unity and are comfortable with C# programming. If you have a basic understanding of Unity's core functionalities such as creating scenes, scripting, and manipulating objects, this book will help you gain the skills needed to master Unity game development.
 
-With the following software and hardware list you can run all code files present in the book (Chapter 1-19).
+With the following software and hardware list you can run all code files present in the book (Chapter 1-10).
 
 ## Software and Hardware List
 
 | Chapter  | Software required               | OS required                      |
 | -------- | --------------------------------| ---------------------------------|
-| 1-19     | Unity3D 2022.3.13               | Windows, macOS, or Linux         |
-| 1-19     | Visual Studio 2022              | Windows, macOS, or Linux         |
-| 1-19     | GitHub Desktop                  | Windows, macOS, or Linux         |
+| 1-10     | Unity3D 2022.3.13               | Windows, macOS, or Linux         |
+| 1-10     | Visual Studio 2022              | Windows, macOS, or Linux         |
+| 1-10     | GitHub Desktop                  | Windows, macOS, or Linux         |
 
 
 ## Related products <Other books you may enjoy>
 * Learning C# by Developing Games with Unity - Seventh Edition [[Packt]](https://www.packtpub.com/product/learning-c-by-developing-games-with-unity-seventh-edition/9781837636877) [[Amazon]](https://www.amazon.com/dp/1837636877)
 
-* Learning Design Patterns with Unity [[Packt]](https://www.packtpub.com/product/learning-design-patterns-with-unity/9781805120285 [[Amazon]](https://www.amazon.com/dp/180512028X)
+* Learning Design Patterns with Unity [[Packt]](https://www.packtpub.com/product/learning-design-patterns-with-unity/9781805120285) [[Amazon]](https://www.amazon.com/dp/180512028X)
 
 ## Get to Know the Author
 **Mohamed Essam**
