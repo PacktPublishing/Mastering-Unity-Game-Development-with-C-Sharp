@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7512330285766026439}
   m_Layer: 0
   m_Name: Projectile1
-  m_TagString: Untagged
+  m_TagString: PlayerProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14e44bae5c0946f4c8517d900e95c9fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectileData: {fileID: 11400000, guid: 3c39ff50c4159b74ca323b0f74f4d0a0, type: 2}
 --- !u!1 &6835689195795051960
 GameObject:
   m_ObjectHideFlags: 0

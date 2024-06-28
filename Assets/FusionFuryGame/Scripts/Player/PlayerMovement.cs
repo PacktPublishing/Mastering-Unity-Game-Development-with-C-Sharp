@@ -10,28 +10,28 @@ namespace FusionFuryGame
 
         public Transform groundChecker;
         public LayerMask groundLayer;
-        public float groundDistance;
+        public float groundDistance = 0.2f;
 
         public Rigidbody playerRigidbody;
         private bool isGrounded = true;
         private bool canDash = true;
 
+        private Vector2 movementInput;
         private Vector3 movementVector;
 
         public Camera mainCamera;
+        public Transform playerGraphics; // The graphics object of the player
 
         private void OnEnable()
-        {
-            PlayerInput.onJump += Jump;
+        {            
             PlayerInput.onDash += Dash;
-            PlayerInput.onMovement += MovePlayer;
+            PlayerInput.onMovement += HandleMovementInput;
         }
 
         private void OnDisable()
         {
-            PlayerInput.onJump -= Jump;
             PlayerInput.onDash -= Dash;
-            PlayerInput.onMovement -= MovePlayer;
+            PlayerInput.onMovement -= HandleMovementInput;
         }
 
         private void Start()
@@ -39,37 +39,31 @@ namespace FusionFuryGame
             mainCamera = Camera.main;
         }
 
-        private void MovePlayer(Vector2 input)
+        private void HandleMovementInput(Vector2 input)
         {
-            movementVector = input;
+            movementInput = input;
         }
 
         private void MovePlayer()
         {
-            Vector3 movement = new Vector3(movementVector.x , 0f , movementVector.y) * playerStats.MoveSpeed * Time.deltaTime;
-            transform.Translate(movement);
+            movementVector = new Vector3(movementInput.x, 0f, movementInput.y).normalized * playerStats.MoveSpeed;
+            Vector3 newPosition = playerRigidbody.position + movementVector * Time.fixedDeltaTime;
+            playerRigidbody.MovePosition(newPosition);
         }
 
-        private void Jump()
-        {
-            if (isGrounded)
-            {
-                playerRigidbody.AddForce(Vector3.up * playerStats.JumpForce, ForceMode.Impulse);
-                isGrounded = false;
-            }
-        }
 
         private void Dash()
         {
             if (canDash)
-            {        
-                Vector3 dashVector = new Vector3(movementVector.x, 0f, movementVector.y).normalized;
+            {
+                Vector3 dashVector = new Vector3(movementInput.x, 0f, movementInput.y).normalized;
                 playerRigidbody.AddForce(dashVector * playerStats.DashForce, ForceMode.Impulse);
 
                 canDash = false;
                 Invoke(nameof(ResetDash), playerStats.DashCooldown);
             }
         }
+
         private void Update()
         {
             RotatePlayerToMouse();
@@ -78,12 +72,7 @@ namespace FusionFuryGame
         private void FixedUpdate()
         {
             MovePlayer();
-            CheckGrounded();
-        }
-
-        private void CheckGrounded()
-        {
-            isGrounded = Physics.Raycast(groundChecker.position, Vector3.down, groundDistance, groundLayer);
+            
         }
 
         private void ResetDash()
@@ -91,17 +80,14 @@ namespace FusionFuryGame
             canDash = true;
         }
 
-
         private void RotatePlayerToMouse()
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, groundLayer))
             {
-                Vector3 targetPosition = hitInfo.point;
-                Vector3 direction = (targetPosition - transform.position).normalized;
-                direction.y = 0; // Keep the direction strictly horizontal
-                Quaternion lookRotation = Quaternion.LookRotation(direction);
-                transform.rotation = lookRotation; // Directly set the rotation
+                
+                //playerRigidbody.MoveRotation(lookRotation); // Directly set the rotation
+                transform.LookAt(new Vector3(hitInfo.point.x, 0, hitInfo.point.z));
             }
         }
     }

@@ -12,7 +12,7 @@ namespace FusionFuryGame
         private void Start()
         {
             if (attachedWeapon != null)
-                ObjectPoolManager.Instance.CreateObjectPool(attachedWeapon.attachedProjectile.gameObject, 10, "EnemyProjectile", attachedWeapon.transform);
+                ObjectPoolManager.Instance.CreateObjectPool(attachedWeapon.weaponData.projectileData.attachedProjectile.gameObject, 10, "EnemyProjectile", attachedWeapon.transform);
 
         }
         public void FireShot()

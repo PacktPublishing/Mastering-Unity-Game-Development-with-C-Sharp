@@ -19,7 +19,7 @@ namespace FusionFuryGame {
         private void Start()
         {
             currentAmmo = maxAmmo;
-            ObjectPoolManager.Instance.CreateObjectPool(currentWeapon.attachedProjectile.gameObject, 10, "PlayerProjectile" , currentWeapon.transform);
+            ObjectPoolManager.Instance.CreateObjectPool(currentWeapon.weaponData.projectileData.attachedProjectile.gameObject, 10, "PlayerProjectile" , currentWeapon.transform);
         }
 
         private void Update()
@@ -65,7 +65,7 @@ namespace FusionFuryGame {
             if (timeSinceLastShot >= shootingInterval)
             {
                 // Shoot in the forward vector of the weapon and pass player power stat
-                currentWeapon.ShootRaycast( fireDamage);
+                currentWeapon.Shoot(fireDamage);
 
                 // Reset the timer
                 timeSinceLastShot = 0f;

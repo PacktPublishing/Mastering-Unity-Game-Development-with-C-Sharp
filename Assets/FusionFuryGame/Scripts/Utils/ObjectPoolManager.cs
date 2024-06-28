@@ -89,7 +89,8 @@ namespace FusionFuryGame
 
                 for (int i = 0; i < poolSize; i++)
                 {
-                    GameObject obj = Instantiate(prefab, parent);
+                    GameObject obj = Instantiate(prefab);
+                    obj.transform.parent = transform;
                     obj.SetActive(false);
                     objectPools[tag].Enqueue(obj);
                 }
@@ -109,7 +110,8 @@ namespace FusionFuryGame
             {
                 for (int i = 0; i < extendSize; i++)
                 {
-                    GameObject obj = Instantiate(objectPools[tag].Peek().gameObject, objectPools[tag].Peek().transform.parent);
+                    GameObject obj = Instantiate(objectPools[tag].Peek().gameObject, transform);
+                    obj.transform.parent = transform;
                     obj.SetActive(false);
                     objectPools[tag].Enqueue(obj);
                 }

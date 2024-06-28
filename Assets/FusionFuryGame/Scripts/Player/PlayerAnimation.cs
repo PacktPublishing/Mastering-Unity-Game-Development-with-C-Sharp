@@ -1,18 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
-public class PlayerAnimation : MonoBehaviour
+namespace FusionFuryGame
 {
-    // Start is called before the first frame update
-    void Start()
+    public class PlayerAnimation : MonoBehaviour
     {
-        
-    }
+        private readonly int hit = Animator.StringToHash("Hit");
+        private readonly int powerUp = Animator.StringToHash("Hit");
+        private readonly int shoot = Animator.StringToHash("Hit");
+        private readonly int die = Animator.StringToHash("Hit");
+        private readonly int movementVector = Animator.StringToHash("Hit");
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private Animator m_Animator;
+        private void OnEnable()
+        {
+            
+        }
+
+        private void OnDisable()
+        {
+            
+        }
+
+        private void Start()
+        {
+            m_Animator = GetComponent<Animator>();
+        }
+
+        private void Onhit()
+        {
+            m_Animator.SetTrigger(hit);
+        }
+
+        private void OnShooting()
+        {
+            m_Animator.SetTrigger(shoot);
+        }
+
+        private void OnDie(bool state)
+        {
+            m_Animator.SetBool(die, state);
+        }
+
+        private void OnPowerUp()
+        {
+            m_Animator.SetTrigger(powerUp);
+        }
+
+        private void OnMove(float movement)
+        {
+            m_Animator.SetFloat(movementVector , movement);
+        }
+
     }
 }
