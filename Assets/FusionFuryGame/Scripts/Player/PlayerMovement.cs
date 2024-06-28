@@ -83,11 +83,16 @@ namespace FusionFuryGame
         private void RotatePlayerToMouse()
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, groundLayer))
+            Plane playerPlane = new Plane(Vector3.up, transform.position);
+
+            if (playerPlane.Raycast(ray, out float distance))
             {
-                
-                //playerRigidbody.MoveRotation(lookRotation); // Directly set the rotation
-                transform.LookAt(new Vector3(hitInfo.point.x, 0, hitInfo.point.z));
+                Vector3 hitPoint = ray.GetPoint(distance);
+                Vector3 lookAtPoint = new Vector3(hitPoint.x, transform.position.y, hitPoint.z);
+                transform.LookAt(lookAtPoint);
+
+                Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 1f);
+                Debug.Log("Mouse hit point: " + hitPoint);
             }
         }
     }
