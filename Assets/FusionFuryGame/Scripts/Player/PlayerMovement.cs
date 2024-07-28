@@ -15,6 +15,7 @@ namespace FusionFuryGame
         public Rigidbody playerRigidbody;
         private bool isGrounded = true;
         private bool canDash = true;
+        private bool canRotate = true;
 
         private Vector2 movementInput;
         private Vector3 movementVector;
@@ -26,12 +27,16 @@ namespace FusionFuryGame
         {            
             PlayerInput.onDash += Dash;
             PlayerInput.onMovement += HandleMovementInput;
+            PlayerAbility.OnAbilityActivated += DisableRotation;
+            PlayerAbility.OnAbilityDeactivated += EnableRotation;
         }
 
         private void OnDisable()
         {
             PlayerInput.onDash -= Dash;
             PlayerInput.onMovement -= HandleMovementInput;
+            PlayerAbility.OnAbilityActivated -= DisableRotation;
+            PlayerAbility.OnAbilityDeactivated -= EnableRotation;
         }
 
         private void Start()
@@ -66,7 +71,10 @@ namespace FusionFuryGame
 
         private void Update()
         {
-            RotatePlayerToMouse();
+            if (canRotate)
+            {
+                RotatePlayerToMouse();
+            }
         }
 
         private void FixedUpdate()
@@ -92,8 +100,18 @@ namespace FusionFuryGame
                 transform.LookAt(lookAtPoint);
 
                 Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 1f);
-                Debug.Log("Mouse hit point: " + hitPoint);
+                
             }
+        }
+
+        private void DisableRotation()
+        {
+            canRotate = false;
+        }
+
+        private void EnableRotation()
+        {
+            canRotate = true;
         }
     }
 }

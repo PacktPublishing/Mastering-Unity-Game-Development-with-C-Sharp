@@ -71,6 +71,15 @@ public partial class @GamePlay: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ability"",
+                    ""type"": ""Button"",
+                    ""id"": ""1ece1e9c-3596-4e78-bebc-60a64c5d1b2e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -227,6 +236,17 @@ public partial class @GamePlay: IInputActionCollection2, IDisposable
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b4f8f554-ef73-449e-b2e4-6f81a60a8057"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ability"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -240,6 +260,7 @@ public partial class @GamePlay: IInputActionCollection2, IDisposable
         m_GamePlayMap_Dash = m_GamePlayMap.FindAction("Dash", throwIfNotFound: true);
         m_GamePlayMap_Shoot = m_GamePlayMap.FindAction("Shoot", throwIfNotFound: true);
         m_GamePlayMap_Reload = m_GamePlayMap.FindAction("Reload", throwIfNotFound: true);
+        m_GamePlayMap_Ability = m_GamePlayMap.FindAction("Ability", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -306,6 +327,7 @@ public partial class @GamePlay: IInputActionCollection2, IDisposable
     private readonly InputAction m_GamePlayMap_Dash;
     private readonly InputAction m_GamePlayMap_Shoot;
     private readonly InputAction m_GamePlayMap_Reload;
+    private readonly InputAction m_GamePlayMap_Ability;
     public struct GamePlayMapActions
     {
         private @GamePlay m_Wrapper;
@@ -315,6 +337,7 @@ public partial class @GamePlay: IInputActionCollection2, IDisposable
         public InputAction @Dash => m_Wrapper.m_GamePlayMap_Dash;
         public InputAction @Shoot => m_Wrapper.m_GamePlayMap_Shoot;
         public InputAction @Reload => m_Wrapper.m_GamePlayMap_Reload;
+        public InputAction @Ability => m_Wrapper.m_GamePlayMap_Ability;
         public InputActionMap Get() { return m_Wrapper.m_GamePlayMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -339,6 +362,9 @@ public partial class @GamePlay: IInputActionCollection2, IDisposable
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
+            @Ability.started += instance.OnAbility;
+            @Ability.performed += instance.OnAbility;
+            @Ability.canceled += instance.OnAbility;
         }
 
         private void UnregisterCallbacks(IGamePlayMapActions instance)
@@ -358,6 +384,9 @@ public partial class @GamePlay: IInputActionCollection2, IDisposable
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
+            @Ability.started -= instance.OnAbility;
+            @Ability.performed -= instance.OnAbility;
+            @Ability.canceled -= instance.OnAbility;
         }
 
         public void RemoveCallbacks(IGamePlayMapActions instance)
@@ -382,5 +411,6 @@ public partial class @GamePlay: IInputActionCollection2, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnAbility(InputAction.CallbackContext context);
     }
 }

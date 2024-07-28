@@ -30,6 +30,7 @@ namespace FusionFuryGame
 
         private void ApplyShootFireEffect()
         {
+            Debug.Log("Appl y Shoot Effect ");
             cinemachineImpulse.GenerateImpulse();
         }
     }

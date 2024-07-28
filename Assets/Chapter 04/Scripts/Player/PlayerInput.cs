@@ -56,6 +56,11 @@ namespace Chapter4
         {
             
         }
+
+        public void OnAbility(InputAction.CallbackContext context)
+        {
+            
+        }
     }
 
 }

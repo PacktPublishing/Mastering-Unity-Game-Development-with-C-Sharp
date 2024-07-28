@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponPower: 15
   projectileForce: 15
-  fireRate: 30
+  fireRate: 100
   accuracy: 60
-  reloadTime: 1
-  magazineSize: 2
+  reloadTime: 0.2
+  magazineSize: 10
   recoil: 0
   range: 15
   burstFireCount: 5

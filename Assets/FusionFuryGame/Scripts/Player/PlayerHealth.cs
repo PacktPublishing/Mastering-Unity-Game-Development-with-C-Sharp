@@ -9,6 +9,7 @@ namespace FusionFuryGame
     public class PlayerHealth : MonoBehaviour, IHealth
     {
         public static UnityAction onPlayerDied = delegate { };
+        public static UnityAction<float> onPlayerHealthChanged = delegate { };
         public float startingMaxHealth = 100;  // Set a default starting maximum health for the player
         private float currentHealth;
 
@@ -52,6 +53,7 @@ namespace FusionFuryGame
         {
             // Implement logic to handle taking damage
             CurrentHealth -= damage;
+            onPlayerHealthChanged.Invoke(CurrentHealth);
         }
 
         public void SetMaxHealth()
@@ -65,6 +67,7 @@ namespace FusionFuryGame
         {
             CurrentHealth += healAmount;
             CurrentHealth = Mathf.Min(CurrentHealth, MaxHealth);
+            onPlayerHealthChanged.Invoke(CurrentHealth);
         }
 
         private void StartHealingOverTime()

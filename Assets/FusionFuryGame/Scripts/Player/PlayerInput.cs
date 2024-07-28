@@ -14,6 +14,7 @@ namespace FusionFuryGame
         public static UnityAction<Vector2> onMovement = delegate { };
         public static UnityAction onShoot = delegate { };
         public static UnityAction onReload = delegate { };
+        public static UnityAction onAbility = delegate { };
         private void OnEnable()
         {
             if (gameplayControls == null)
@@ -57,6 +58,12 @@ namespace FusionFuryGame
         {
             if (context.performed)
                 onReload.Invoke();
+        }
+
+        public void OnAbility(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Started)
+                onAbility.Invoke();
         }
     }
 }
