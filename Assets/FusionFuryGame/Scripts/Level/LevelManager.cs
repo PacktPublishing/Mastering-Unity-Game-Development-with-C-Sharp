@@ -5,12 +5,17 @@ using static FusionFuryGame.ChallengeManager;
 
 namespace FusionFuryGame
 {
+    
+    //I will add objects here of the level in the object pool manager
     public class LevelManager : Singlton<LevelManager>
     {
         public GenericDictionary<int, ChallengeType> levelChallengeMapping = new GenericDictionary<int, ChallengeType>();
         public int currentLevel;
+        [SerializeField] FloatingText floatingText;
         private void Start()
         {
+            ObjectPoolManager.Instance.CreateObjectPool(floatingText.gameObject, 10, PooledObjectNames.FloatingText.ToString(), transform);
+
             StartChallengeForCurrentLevel(currentLevel);
         }
         public void StartChallengeForCurrentLevel(int currentLevel)

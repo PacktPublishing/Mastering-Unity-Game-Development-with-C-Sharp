@@ -31,6 +31,7 @@ namespace FusionFuryGame
             {
                 currentHealth = Mathf.Clamp(value, 0, MaxHealth);
                 Debug.Log("Set Health " + currentHealth);
+                healthBar.healthImage.fillAmount = currentHealth / maxHealth;
                 if (currentHealth <= 0)
                 {
                     Debug.Log("OnEnemy Died ");
@@ -38,6 +39,8 @@ namespace FusionFuryGame
                 }
             }
         }
+
+        [SerializeField] internal HealthBar healthBar;
         private void Start()
         {
             SetMaxHealth();  // Set initial max health

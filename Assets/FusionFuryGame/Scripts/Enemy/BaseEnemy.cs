@@ -31,7 +31,7 @@ namespace FusionFuryGame
         internal EnemyAnimations animationComponent;
         internal EnemyShoot shootComponent;
         internal EnemyHealth healthComponent;
-
+        
         protected virtual void Start()
         {
             // Initialize states

@@ -126,3 +126,9 @@ namespace FusionFuryGame
         }
     }
 }
+
+
+public enum PooledObjectNames
+{
+    FloatingText
+}
