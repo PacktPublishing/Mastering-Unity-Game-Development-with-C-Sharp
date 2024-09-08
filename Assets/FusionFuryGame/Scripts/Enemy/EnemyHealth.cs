@@ -30,18 +30,17 @@ namespace FusionFuryGame
             set
             {
                 currentHealth = Mathf.Clamp(value, 0, MaxHealth);
-                Debug.Log("Set Health " + currentHealth);
                 healthBar.healthImage.fillAmount = currentHealth / maxHealth;
+
                 if (currentHealth <= 0)
                 {
-                    Debug.Log("OnEnemy Died ");
                     onEnemyDied.Invoke();
                 }
             }
         }
 
         [SerializeField] internal HealthBar healthBar;
-        private void Start()
+        private void OnEnable()
         {
             SetMaxHealth();  // Set initial max health
             healIntervalWait = new WaitForSeconds(healInterval);
@@ -52,6 +51,8 @@ namespace FusionFuryGame
         {
             MaxHealth = startingMaxHealth;
             currentHealth = MaxHealth;
+            healthBar.healthImage.fillAmount = currentHealth / maxHealth;
+
         }
 
         public void TakeDamage(float damage)
@@ -79,6 +80,11 @@ namespace FusionFuryGame
                 yield return healIntervalWait;
                 Heal();
             }
+        }
+
+        private void OnDisable()
+        {
+            StopCoroutine(healOverTimeCoroutine);
         }
     }
 }

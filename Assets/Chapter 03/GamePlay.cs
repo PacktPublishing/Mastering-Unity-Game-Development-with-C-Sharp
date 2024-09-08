@@ -228,6 +228,17 @@ public partial class @GamePlay: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""c55a6750-ad23-4f15-adaf-20379d11324a"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""a6d3cf53-0fcb-4f6f-ba91-9a3dcacbc2eb"",
                     ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",

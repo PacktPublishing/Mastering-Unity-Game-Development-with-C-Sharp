@@ -1,0 +1,28 @@
+Robo3 animations list
+
+1-80 idle(loop)
+80-90 walk start
+90-170 walk (loop)
+170-210 shift right
+210-250 shift left
+250-260 walk end
+260-265 run start
+265-305 run(loop)
+305-310 run end
+310-320 right turn(90)
+320-325 -
+325-335 left turn(90)
+335-340 -
+340-355 back turn(180)
+355-360 -
+360-380 jump
+380-395 attack start
+395-440 attack standart(loop)
+440-465 attack 2
+465-470 attack end
+470-500 getting damage
+500-530 die
+530-540 -
+540-550 power off
+550-555 - 
+555-565 power on

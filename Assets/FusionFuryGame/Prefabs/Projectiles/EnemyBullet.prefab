@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6193709204818149148}
   - component: {fileID: 4988805082408351470}
   - component: {fileID: 1813655292678608208}
+  - component: {fileID: 5739163657784610370}
   m_Layer: 0
   m_Name: EnemyBullet
   m_TagString: EnemyProjectile
@@ -64,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: d51bc8cfea327f744a8090ac1eb3df9b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -121,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd59a4b290d9e314d87b076788884242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 5
+  projectileData: {fileID: 11400000, guid: d518154d5efb3c64495f219f25b62cc4, type: 2}
 --- !u!54 &1813655292678608208
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -149,3 +150,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5739163657784610370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4555234584992698021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60b87f699abc48d4ab12aa9eb5cfd29c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

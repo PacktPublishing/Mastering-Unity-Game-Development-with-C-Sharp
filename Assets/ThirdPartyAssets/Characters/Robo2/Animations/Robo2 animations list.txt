@@ -1,0 +1,31 @@
+Robo2 animations list
+
+1-80 idle(loop)
+80-90 walk start
+90-170 walk (loop)
+170-210 shift right
+210-250 shift left
+250-260 walk end
+260-265 run start
+265-305 run(loop)
+305-310 run end
+310-320 right turn(90)
+320-325 -
+325-335 left turn(90)
+335-340 -
+340-355 back turn(180)
+355-360 -
+360-380 jump
+380-390 attack start
+390-430 attack standart(loop)
+430-450 attack 360
+450-460 attack end
+460-470 repairs start
+470-490 repairs (loop)
+490-500 repairs end
+500-530 getting damage
+530-560 die
+560-570 -
+570-580 power off
+580-585 - 
+585-595 power on

@@ -65,7 +65,7 @@ namespace FusionFuryGame
             textMesh.transform.localScale = originalScale;
             textMesh.color = defaultColor;
             textMesh.alpha = 1;
-            ObjectPoolManager.Instance.ReturnToPool(PooledObjectNames.FloatingText.ToString(), gameObject);
+            PoolManager.Instance.ReturnToPool( gameObject, PooledObjectNames.FloatingText.ToString());
         }
     }
 }

@@ -14,7 +14,7 @@ namespace FusionFuryGame
         [SerializeField] FloatingText floatingText;
         private void Start()
         {
-            ObjectPoolManager.Instance.CreateObjectPool(floatingText.gameObject, 10, PooledObjectNames.FloatingText.ToString(), transform);
+            PoolManager.Instance.AddNewPoolItem(floatingText.gameObject, 10);
 
             StartChallengeForCurrentLevel(currentLevel);
         }

@@ -32,6 +32,8 @@ namespace FusionFuryGame
 
         private void StartChaseBehavior(BaseEnemy enemy)
         {
+            if (enemy.player == null) return;
+
             enemy.navMeshAgent.SetDestination(enemy.player.position);
         }
 
@@ -48,6 +50,8 @@ namespace FusionFuryGame
 
         private void LookAtPlayer(BaseEnemy enemy)
         {
+            if (enemy.player == null) return ;
+
             // Example: Make the enemy face the player while chasing
             Vector3 lookDirection = enemy.player.position - enemy.transform.position;
             lookDirection.y = 0;  // Keep the enemy's rotation in the horizontal plane

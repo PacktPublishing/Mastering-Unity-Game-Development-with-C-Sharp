@@ -23,6 +23,10 @@ namespace FusionFuryGame
             }
         }
 
+        /// <summary>
+        /// Sets the direction of the projectile.
+        /// </summary>
+        /// <param name="dir">A normalized direction vector.</param>
         public void SetDirection(Vector3 dir)
         {
             direction = dir.normalized;
@@ -31,8 +35,8 @@ namespace FusionFuryGame
         private void Update()
         {
             timer += Time.deltaTime;
-            // Move the projectile forward
-            transform.Translate(Vector3.forward * projectileData.speed * Time.deltaTime);
+            // Move the projectile in the specified direction (already normalized)
+            transform.Translate(direction * projectileData.speed * Time.deltaTime, Space.World);  // Use Space.World for global direction
 
             // Deactivate the projectile if it exceeds its lifetime
             if (timer >= projectileData.lifetime)
@@ -43,13 +47,13 @@ namespace FusionFuryGame
 
         public virtual void SetDamageValue(float value)
         {
-            Debug.Log("Set Damage Value: " + value);
+            //Debug.Log("Set Damage Value: " + value);
             projectileData.damage = value;
         }
 
         public virtual float GetDamageValue()
         {
-            Debug.Log("Get Damage Value: " + projectileData.damage);
+            //Debug.Log("Get Damage Value: " + projectileData.damage);
             return projectileData.damage;
         }
 
@@ -58,7 +62,7 @@ namespace FusionFuryGame
             // Optionally, spawn a hit effect at the hit point
             if (projectileData.hitEffectPrefab != null)
             {
-                Instantiate(projectileData.hitEffectPrefab, transform.position, Quaternion.identity);
+                Instantiate(projectileData.hitEffectPrefab, transform.position, Quaternion.LookRotation(collision.contacts[0].normal));
             }
 
             // Deactivate projectile when it collides with something

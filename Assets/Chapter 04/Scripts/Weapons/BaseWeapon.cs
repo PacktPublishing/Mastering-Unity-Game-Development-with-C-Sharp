@@ -13,7 +13,7 @@ namespace Chapter4
         public virtual void Shoot(float fireDamage)
         {
             // Instantiate the projectile from the object pool 
-            GameObject projectileObject = ObjectPoolManager.Instance.GetPooledObject(attachedProjectile.tag);
+            GameObject projectileObject = PoolManager.Instance.GetPooledObject(attachedProjectile.name);
 
             if (projectileObject != null)
             {

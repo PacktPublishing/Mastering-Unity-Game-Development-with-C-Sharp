@@ -9,6 +9,8 @@ namespace FusionFuryGame
     {
         private PlayerHealth playerHealth;
         private IDamage enemyDamage;
+
+        public static UnityAction onPlayerGetHit = delegate { };
         private void Start()
         {
             playerHealth = GetComponent<PlayerHealth>();
@@ -21,6 +23,7 @@ namespace FusionFuryGame
                 if (collision.gameObject.TryGetComponent(out enemyDamage))
                 {
                     playerHealth.TakeDamage(enemyDamage.GetDamageValue());
+                    onPlayerGetHit.Invoke();
                 }
             }
 

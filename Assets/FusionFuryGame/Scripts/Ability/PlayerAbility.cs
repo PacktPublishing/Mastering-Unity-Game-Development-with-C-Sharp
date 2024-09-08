@@ -17,11 +17,13 @@ namespace FusionFuryGame
         private void OnEnable()
         {
             PlayerInput.onAbility += OnAbilityPressed;
+            PlayerEffects.onParticleFinish += ActiviateAbility;
         }
 
         private void OnDisable()
         {
             PlayerInput.onAbility -= OnAbilityPressed;
+            PlayerEffects.onParticleFinish -= ActiviateAbility;
         }
 
         private void Start()
@@ -45,8 +47,13 @@ namespace FusionFuryGame
             if (currentAbility != null)
             {
                 OnAbilityActivated.Invoke();
-                currentAbility?.Activate(playerShoot, playerMovement);
+
             }
+        }
+
+        private void ActiviateAbility()
+        {
+            currentAbility?.Activate(playerShoot, playerMovement);
         }
 
         private void OnAbilityPressed()

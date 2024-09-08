@@ -31,8 +31,8 @@ namespace FusionFuryGame
         internal EnemyAnimations animationComponent;
         internal EnemyShoot shootComponent;
         internal EnemyHealth healthComponent;
-        
-        protected virtual void Start()
+
+        private void OnEnable()
         {
             // Initialize states
             wanderState = new WanderState();
@@ -43,15 +43,21 @@ namespace FusionFuryGame
 
             // Set initial state
             currentState = wanderState;
+            healthComponent = GetComponent<EnemyHealth>();
+
+
+        }
+        protected virtual void Start()
+        {
 
             // Get references
             player = GameObject.FindGameObjectWithTag("Player").transform;
             navMeshAgent = GetComponent<NavMeshAgent>();
             animationComponent = GetComponent<EnemyAnimations>();
             shootComponent = GetComponent<EnemyShoot>();
-            healthComponent = GetComponent<EnemyHealth>();
+            
+
             healthComponent.onEnemyDied += OnDied;
-           
         }
 
         protected virtual void Update()
@@ -62,6 +68,8 @@ namespace FusionFuryGame
 
         public bool PlayerInSight()
         {
+            if (player == null) return false;
+
             Vector3 directionToPlayer = player.position - transform.position;
             float distanceToPlayer = directionToPlayer.magnitude;
 
@@ -86,6 +94,7 @@ namespace FusionFuryGame
 
         public bool PlayerInRange()
         {
+            if (player == null) return false;
             Vector3 directionToPlayer = player.position - transform.position;
             float distanceToPlayer = directionToPlayer.magnitude;
 
@@ -125,10 +134,16 @@ namespace FusionFuryGame
 
         private void OnDied()
         {
-            healthComponent.onEnemyDied -= OnDied;
+            
             // Trigger death logic if health reaches zero
             TransitionToState(deathState);
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
+        }
+
+        private void OnDestroy()
+        {
+            healthComponent.onEnemyDied -= OnDied;
         }
 
     }

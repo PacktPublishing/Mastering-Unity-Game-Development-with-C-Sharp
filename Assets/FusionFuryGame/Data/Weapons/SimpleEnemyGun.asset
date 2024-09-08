@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 258e23be9f7543c4ba0946abb49126d5, type: 3}
+  m_Name: SimpleEnemyGun
+  m_EditorClassIdentifier: 
+  weaponPower: 15
+  projectileForce: 15
+  fireRate: 100
+  accuracy: 60
+  reloadTime: 0.2
+  magazineSize: 10
+  recoil: 0
+  range: 15
+  burstFireCount: 5
+  fireMode: 2
+  bulletSpread: 3
+  projectileData: {fileID: 11400000, guid: d518154d5efb3c64495f219f25b62cc4, type: 2}

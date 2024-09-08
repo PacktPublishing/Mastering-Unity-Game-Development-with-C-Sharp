@@ -12,9 +12,11 @@ namespace FusionFuryGame
         [SerializeField] private float fireDamage;
         [SerializeField] private float shootingInterval = 0.5f;  // Set the shooting interval in seconds
         private float timeSinceLastShot = 0f;
+        private PlayerMovement playerMovement;
         private void Start()
         {
-            ObjectPoolManager.Instance.CreateObjectPool(currentWeapon.weaponData.projectileData.attachedProjectile.gameObject, 50, "PlayerProjectile", currentWeapon.transform);
+            playerMovement = GetComponent<PlayerMovement>();
+            //PoolManager.Instance.AddNewPoolItem(currentWeapon.weaponData.projectileData.attachedProjectile.gameObject, 50);
         }
 
         private void Update()
@@ -40,8 +42,9 @@ namespace FusionFuryGame
             // Check if enough time has passed since the last shot
             if (timeSinceLastShot >= shootingInterval)
             {
+                Vector3 aimDirection = playerMovement.GetMouseAimDirection();
                 // Shoot in the forward vector of the weapon and pass player power stat
-                currentWeapon.Shoot(fireDamage);
+                currentWeapon.Shoot(fireDamage, aimDirection);
 
                 // Reset the timer
                 timeSinceLastShot = 0f;
@@ -55,7 +58,7 @@ namespace FusionFuryGame
         public void ShootForAbility()
         {
             // Special shooting logic for abilities
-            currentWeapon.Shoot(fireDamage);
+            currentWeapon.Shoot(fireDamage, transform.forward);
         }
     }
 }

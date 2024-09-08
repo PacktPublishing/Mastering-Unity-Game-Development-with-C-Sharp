@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0adf573682060840b19313b44747f5d, type: 3}
+  m_Name: EnemyBullet
+  m_EditorClassIdentifier: 
+  damage: 5
+  lifetime: 2
+  hitEffectPrefab: {fileID: 6823302871133167919, guid: 3138a83bedbd6ad4481ba0b061da2eb6,
+    type: 3}
+  speed: 20
+  attachedProjectile: {fileID: 4555234584992698021, guid: 20d031fd0468ede45bc526f7dc63a195,
+    type: 3}
+  tag: EnemyProjectile

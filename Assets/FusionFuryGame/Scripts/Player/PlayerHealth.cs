@@ -26,12 +26,9 @@ namespace FusionFuryGame
             set
             {
                 currentHealth = Mathf.Clamp(value, 0, MaxHealth);
-                Debug.Log("Set Health " + currentHealth);
                 if (currentHealth <= 0)
                 {
-                    Debug.Log("OnPlayer Died ");
                     onPlayerDied.Invoke();
-                    Destroy(gameObject);
                 }
             }
         }

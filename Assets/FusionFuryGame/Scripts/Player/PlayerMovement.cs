@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace FusionFuryGame
 {
@@ -16,6 +17,7 @@ namespace FusionFuryGame
         private bool isGrounded = true;
         private bool canDash = true;
         private bool canRotate = true;
+        private bool canMove = true;
 
         private Vector2 movementInput;
         private Vector3 movementVector;
@@ -23,12 +25,17 @@ namespace FusionFuryGame
         public Camera mainCamera;
         public Transform playerGraphics; // The graphics object of the player
 
+
+
+        public static UnityAction<float> onMove = delegate { };
+
         private void OnEnable()
-        {            
+        {
             PlayerInput.onDash += Dash;
             PlayerInput.onMovement += HandleMovementInput;
             PlayerAbility.OnAbilityActivated += DisableRotation;
             PlayerAbility.OnAbilityDeactivated += EnableRotation;
+            PlayerHealth.onPlayerDied += StopMovement;
         }
 
         private void OnDisable()
@@ -37,6 +44,7 @@ namespace FusionFuryGame
             PlayerInput.onMovement -= HandleMovementInput;
             PlayerAbility.OnAbilityActivated -= DisableRotation;
             PlayerAbility.OnAbilityDeactivated -= EnableRotation;
+            PlayerHealth.onPlayerDied -= StopMovement;
         }
 
         private void Start()
@@ -54,6 +62,9 @@ namespace FusionFuryGame
             movementVector = new Vector3(movementInput.x, 0f, movementInput.y).normalized * playerStats.MoveSpeed;
             Vector3 newPosition = playerRigidbody.position + movementVector * Time.fixedDeltaTime;
             playerRigidbody.MovePosition(newPosition);
+
+            // Send movement magnitude to animation
+            onMove.Invoke(movementVector.magnitude);
         }
 
 
@@ -79,8 +90,9 @@ namespace FusionFuryGame
 
         private void FixedUpdate()
         {
-            MovePlayer();
-            
+            if (canMove)
+                MovePlayer();
+
         }
 
         private void ResetDash()
@@ -90,6 +102,7 @@ namespace FusionFuryGame
 
         private void RotatePlayerToMouse()
         {
+
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             Plane playerPlane = new Plane(Vector3.up, transform.position);
 
@@ -100,8 +113,24 @@ namespace FusionFuryGame
                 transform.LookAt(lookAtPoint);
 
                 Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 1f);
-                
+
             }
+        }
+
+        public Vector3 GetMouseAimDirection()
+        {
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            Plane playerPlane = new Plane(Vector3.up, transform.position);
+
+            if (playerPlane.Raycast(ray, out float distance))
+            {
+                Vector3 hitPoint = ray.GetPoint(distance);
+                Vector3 aimDirection = (hitPoint - transform.position).normalized;
+                aimDirection.y = 0f;  // Ignore vertical aiming
+                return aimDirection;
+            }
+
+            return transform.forward;  // Fallback in case of an error
         }
 
         private void DisableRotation()
@@ -112,6 +141,12 @@ namespace FusionFuryGame
         private void EnableRotation()
         {
             canRotate = true;
+        }
+
+        private void StopMovement()
+        {
+            canRotate = false;
+            canMove = false;
         }
     }
 }

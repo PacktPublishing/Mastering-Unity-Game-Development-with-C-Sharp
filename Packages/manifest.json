@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.coffee.ui-effect": "https://github.com/mob-sakai/UIEffect.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.ai.navigation": "1.1.5",
     "com.unity.cinemachine": "2.9.7",
@@ -10,6 +11,7 @@
     "com.unity.inputsystem": "1.7.0",
     "com.unity.memoryprofiler": "1.1.0",
     "com.unity.nuget.newtonsoft-json": "3.2.1",
+    "com.unity.probuilder": "5.2.3",
     "com.unity.render-pipelines.universal": "14.0.9",
     "com.unity.test-framework": "1.1.33",
     "com.unity.textmeshpro": "3.0.6",
@@ -46,7 +48,6 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0",
-    "com.coffee.ui-effect": "https://github.com/mob-sakai/UIEffect.git"
+    "com.unity.modules.xr": "1.0.0"
   }
 }

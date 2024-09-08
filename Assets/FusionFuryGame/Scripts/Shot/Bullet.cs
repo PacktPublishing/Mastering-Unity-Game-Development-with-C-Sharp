@@ -8,7 +8,7 @@ namespace FusionFuryGame
     {
         public override void DeactivateObject()
         {
-            ObjectPoolManager.Instance.ReturnToPool("PlayerProjectile", gameObject);
+            PoolManager.Instance.ReturnToPool(gameObject ,gameObject.name.Replace("(Clone)", "").Trim());
         }
     }
 }

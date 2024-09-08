@@ -8,17 +8,19 @@ namespace FusionFuryGame
 
         public BaseWeapon attachedWeapon;  // Reference to the attacted Weapon
         [SerializeField] float fireDamage; //when the enemy shoot the player
-
+        private BaseEnemy baseEnemy;
         private void Start()
         {
             if (attachedWeapon != null)
-                ObjectPoolManager.Instance.CreateObjectPool(attachedWeapon.weaponData.projectileData.attachedProjectile.gameObject, 10, "EnemyProjectile", attachedWeapon.transform);
-
+                PoolManager.Instance.AddNewPoolItem(attachedWeapon.weaponData.projectileData.attachedProjectile.gameObject, 10);
+            baseEnemy = GetComponent<BaseEnemy>();
         }
         public void FireShot()
         {
+            Vector3 directionToPlayer = (baseEnemy.player.position - transform.position).normalized;
+            directionToPlayer.y = 0f;  // Ignore vertical aiming
             Debug.Log("SHot Start");
-            attachedWeapon.Shoot(fireDamage);
+            attachedWeapon.Shoot(fireDamage, directionToPlayer);
         }
 
         public float GetDamageValue()

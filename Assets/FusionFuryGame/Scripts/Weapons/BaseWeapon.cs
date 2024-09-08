@@ -7,7 +7,7 @@ namespace FusionFuryGame
     public abstract class BaseWeapon : MonoBehaviour
     {
         [SerializeField] public WeaponData weaponData;  // Reference to the WeaponData ScriptableObject
-        [SerializeField] public Transform muzzleTransfrom;
+        [SerializeField] public Transform muzzleTransform;
         public LineRenderer lineRenderer;
         public float lineDuration = 0.1f;
         public GameObject hitEffectPrefab;
@@ -16,12 +16,15 @@ namespace FusionFuryGame
         private bool isReloading = false;
         private float nextFireTime = 0f;
 
+        // Define a fixed firing direction in world space (e.g., Vector3.up for top-down)
+        [SerializeField] private Vector3 fixedFireDirection = Vector3.forward;
+
         private void Start()
         {
             currentAmmo = weaponData.magazineSize;
         }
 
-        public virtual void Shoot(float fireDamage)
+        public virtual void Shoot(float fireDamage, Vector3 fireDirection)
         {
             if (isReloading) return;
 
@@ -39,46 +42,36 @@ namespace FusionFuryGame
             nextFireTime = Time.time + 1f / weaponData.fireRate;  // Calculate the next fire time based on the fire rate
             currentAmmo--;
 
-            if (weaponData.fireMode == FireMode.Burst)
-            {
-                StartCoroutine(BurstFire(fireDamage));
-            }
-            else
-            {
-                FireProjectile(fireDamage);
-            }
+
+            FireProjectile(fireDamage, fireDirection);
+
         }
 
-        private IEnumerator BurstFire(float fireDamage)
-        {
-            for (int i = 0; i < weaponData.burstFireCount; i++)
-            {
-                if (currentAmmo <= 0) break;
-                FireProjectile(fireDamage);
-                currentAmmo--;
-                yield return new WaitForSeconds(1f / weaponData.fireRate);
-            }
-        }
+        //private IEnumerator BurstFire(float fireDamage)
+        //{
+        //    for (int i = 0; i < weaponData.burstFireCount; i++)
+        //    {
+        //        if (currentAmmo <= 0) break;
+        //        FireProjectile(fireDamage);
+        //        currentAmmo--;
+        //        yield return new WaitForSeconds(1f / weaponData.fireRate);
+        //    }
+        //}
 
-        private void FireProjectile(float fireDamage)
+        private void FireProjectile(float fireDamage, Vector3 fireDirection)
         {
+            // Get the aim direction based on the player's current aim (using mouse or right stick for example)
+           // Vector3 aimDirection = GetAimDirection();
+
             // Instantiate the projectile from the object pool
-            GameObject projectileObject = ObjectPoolManager.Instance.GetPooledObject(weaponData.projectileData.tag);
+            GameObject projectileObject = PoolManager.Instance.GetPooledObject(weaponData.projectileData.attachedProjectile.name);
 
             if (projectileObject != null)
             {
-                // Set the position of the projectile to the gun's position
-                //projectileObject.transform.position = transform.position;
-                projectileObject.transform.position = muzzleTransfrom.position;
-                projectileObject.transform.rotation = muzzleTransfrom.rotation;
-
-                // Apply bullet spread for accuracy
-                Vector3 spread = Vector3.forward +
-                                 new Vector3(
-                                     Random.Range(-weaponData.bulletSpread, weaponData.bulletSpread),
-                                     Random.Range(-weaponData.bulletSpread, weaponData.bulletSpread),
-                                     Random.Range(-weaponData.bulletSpread, weaponData.bulletSpread));
-                spread.Normalize();
+                // Set the position of the projectile to the muzzle's position
+                projectileObject.transform.position = muzzleTransform.position;
+                // Set the projectile's rotation to match the aim direction
+                projectileObject.transform.rotation = Quaternion.LookRotation(fireDirection);
 
                 // Get the component from the instantiated projectile
                 BaseProjectile projectileComponent = projectileObject.GetComponent<BaseProjectile>();
@@ -91,10 +84,8 @@ namespace FusionFuryGame
                     // Set the damage value on the instantiated projectile
                     projectileComponent.SetDamageValue(modifiedDamage);
 
-                    // Set the direction for the projectile
-                    projectileComponent.SetDirection(muzzleTransfrom.position);
-                    // Apply recoil
-                   // ApplyRecoil();
+                    // Set the direction for the projectile (in the player's aim direction)
+                    projectileComponent.SetDirection(fireDirection);
                 }
                 else
                 {
@@ -102,6 +93,44 @@ namespace FusionFuryGame
                 }
             }
         }
+
+        //// Method to get the aim direction (for mouse aiming or controller aiming)
+        //private Vector3 GetAimDirection()
+        //{
+        //    // Get the mouse position in the world (for mouse-based aiming)
+        //    Vector3 mouseWorldPosition = GetMouseWorldPosition();
+
+        //    // Calculate direction from the weapon's position to the mouse position
+        //    Vector3 aimDirection = (mouseWorldPosition - muzzleTransform.position).normalized;
+
+        //    // Set the Y position of the aim direction to 0 to ignore vertical aiming
+        //    aimDirection.y = 0f;
+
+        //    return aimDirection;
+        //}
+
+        //// This method converts mouse screen position into a world position
+        //private Vector3 GetMouseWorldPosition()
+        //{
+        //    // Get the mouse position in screen space
+        //    Vector3 mouseScreenPosition = Input.mousePosition;
+
+        //    // Convert screen space position to world position
+        //    Ray ray = Camera.main.ScreenPointToRay(mouseScreenPosition);
+        //    Plane groundPlane = new Plane(Vector3.up, Vector3.zero); // Assuming the ground plane is flat at y = 0
+
+        //    if (groundPlane.Raycast(ray, out float rayDistance))
+        //    {
+        //        Vector3 mouseWorldPosition = ray.GetPoint(rayDistance);
+
+        //        // Fix the Y position to a constant value, for example, 1.0f (adjust as needed)
+        //        mouseWorldPosition.y = muzzleTransform.position.y;  // Set the Y position of the aim to the height of the muzzle
+
+        //        return mouseWorldPosition;
+        //    }
+
+        //    return Vector3.zero; // Fallback value if no hit
+        //}
 
         private IEnumerator Reload()
         {
@@ -137,7 +166,7 @@ namespace FusionFuryGame
             nextFireTime = Time.time + 1f / weaponData.fireRate;  // Calculate the next fire time based on the fire rate
             currentAmmo--;
 
-            Ray ray = new Ray(transform.position, Vector3.forward);
+            Ray ray = new Ray(transform.position, fixedFireDirection);
             RaycastHit hit;
 
             lineRenderer.SetPosition(0, transform.position);
@@ -186,7 +215,7 @@ namespace FusionFuryGame
             nextFireTime = Time.time + 1f / weaponData.fireRate;  // Calculate the next fire time based on the fire rate
             currentAmmo--;
 
-            Ray ray = new Ray(transform.position, Vector3.forward);
+            Ray ray = new Ray(transform.position, fixedFireDirection);
             RaycastHit hit;
             // Draw the ray in the scene view for debugging purposes
             Debug.DrawRay(ray.origin, ray.direction * weaponData.range, Color.red, 1.0f);
