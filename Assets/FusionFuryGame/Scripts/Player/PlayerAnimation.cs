@@ -45,7 +45,17 @@ namespace FusionFuryGame
 
         private void OnShooting()
         {
-            m_Animator.SetTrigger(shoot);
+            if (!m_Animator.GetCurrentAnimatorStateInfo(1).IsName("Shooting Layer"))
+            {
+                // Activate the shooting layer when shooting
+                m_Animator.SetLayerWeight(1, 1);
+                //m_Animator.SetTrigger(shoot);
+            }
+            else
+            {
+                // Deactivate the shooting layer when not shooting
+                m_Animator.SetLayerWeight(1, 0);
+            }
         }
 
         private void OnDie()

@@ -10,6 +10,9 @@ namespace FusionFuryGame
     {
         public int soundVolume;
         public bool isFullScreen;
-        public int graphicsQuality;       
+        public int graphicsQuality;
+
+        public bool isMusicOn;
+        public bool isSoundOn;
     }
 }

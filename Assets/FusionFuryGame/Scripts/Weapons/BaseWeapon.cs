@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.Pipes;
 using UnityEngine;
 
 namespace FusionFuryGame
@@ -45,6 +46,11 @@ namespace FusionFuryGame
 
             FireProjectile(fireDamage, fireDirection);
 
+        }
+
+        public void ShootAbility(float fireDamage, Vector3 fireDirection)
+        {
+            FireProjectile(fireDamage, fireDirection);
         }
 
         //private IEnumerator BurstFire(float fireDamage)

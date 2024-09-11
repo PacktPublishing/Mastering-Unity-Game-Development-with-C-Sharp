@@ -10,6 +10,16 @@ namespace FusionFuryGame
         public GameSettings gameSettings;
 
         #region Unity CallBacks
+
+        private void OnEnable()
+        {
+            PlayerHealth.onPlayerDied += HandlePlayerDeath;
+        }
+
+        private void OnDisable()
+        {
+            PlayerHealth.onPlayerDied -= HandlePlayerDeath;
+        }
         private void Start()
         {
             LoadGameData();
@@ -53,6 +63,17 @@ namespace FusionFuryGame
             SaveManager.SaveData("playerData", JsonUtility.ToJson(playerData));
             SaveManager.SaveData("gameSettings", JsonUtility.ToJson(gameSettings));
             Debug.Log("Game data saved successfully.");
+        }
+
+        private void HandlePlayerDeath()
+        {
+            StartCoroutine(StopTheGame());
+        }
+
+        IEnumerator StopTheGame()
+        {
+            yield return new WaitForSecondsRealtime(0.15f);
+            Time.timeScale = 0;
         }
     }
 }

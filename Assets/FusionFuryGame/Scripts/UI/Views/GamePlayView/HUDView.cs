@@ -44,7 +44,7 @@ namespace FusionFuryGame
             if (HealthChange > 0)
             {
                 // Increase energy: move the slow bar first in green, then the fast bar catches up
-                slowHealthBar.color = Color.red;
+                slowHealthBar.color = Color.cyan;
                 slowHealthBar.fillAmount = previousHealthPercentage;
                 fasthealthBar.fillAmount = previousHealthPercentage;
 
@@ -56,7 +56,7 @@ namespace FusionFuryGame
             else
             {
                 // Decrease energy: move the fast bar first, then the slow bar catches up in red
-                slowHealthBar.color = Color.cyan;
+                slowHealthBar.color = Color.red;
                 fasthealthBar.fillAmount = previousHealthPercentage;
                 slowHealthBar.fillAmount = previousHealthPercentage;
 

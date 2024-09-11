@@ -37,7 +37,7 @@ namespace FusionFuryGame
                 // Shooting logic here
                 if (totalRotation % shootingInterval < rotationStep)
                 {
-                    playerShoot.OnShootFire();
+                    playerShoot.ShootForAbility();
                 }
 
                 yield return null;

@@ -57,8 +57,9 @@ namespace FusionFuryGame
 
         public void ShootForAbility()
         {
+            Vector3 aimDirection = playerMovement.GetMouseAimDirection();
             // Special shooting logic for abilities
-            currentWeapon.Shoot(fireDamage, transform.forward);
+            currentWeapon.ShootAbility(fireDamage, transform.forward);
         }
     }
 }
