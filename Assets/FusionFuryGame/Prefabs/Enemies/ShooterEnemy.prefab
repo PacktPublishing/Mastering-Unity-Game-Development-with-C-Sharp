@@ -560,6 +560,8 @@ MonoBehaviour:
   attackRange: 5
   chaseSpeed: 5
   rotationSpeed: 5
+  spawnEffect: {fileID: 2246597614399696879, guid: 82b8712708c1aa04c96062938540d9ba,
+    type: 3}
 --- !u!195 &4341513457260580570
 NavMeshAgent:
   m_ObjectHideFlags: 0

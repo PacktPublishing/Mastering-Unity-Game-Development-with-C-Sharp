@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering;
+using UnityEngine.VFX;
 
 namespace FusionFuryGame
 {
@@ -31,7 +32,7 @@ namespace FusionFuryGame
         internal EnemyAnimations animationComponent;
         internal EnemyShoot shootComponent;
         internal EnemyHealth healthComponent;
-
+        [SerializeField] VisualEffect spawnEffect;
         private void OnEnable()
         {
             // Initialize states
@@ -45,6 +46,11 @@ namespace FusionFuryGame
             currentState = wanderState;
             healthComponent = GetComponent<EnemyHealth>();
 
+            if (spawnEffect)
+            {
+                VisualEffect effectInstance = Instantiate(spawnEffect, transform.position, Quaternion.identity);
+                effectInstance.transform.SetParent(transform);  // Parent it to the enemy
+            }
 
         }
         protected virtual void Start()
