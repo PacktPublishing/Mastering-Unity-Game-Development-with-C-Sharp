@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -33,6 +34,8 @@ namespace FusionFuryGame
         internal EnemyShoot shootComponent;
         internal EnemyHealth healthComponent;
         [SerializeField] VisualEffect spawnEffect;
+
+        private Vector3 originalScale; // Store the original scale of the enemy
         private void OnEnable()
         {
             // Initialize states
@@ -52,7 +55,10 @@ namespace FusionFuryGame
                 effectInstance.transform.SetParent(transform);  // Parent it to the enemy
             }
 
+            
+
         }
+
         protected virtual void Start()
         {
 
@@ -64,6 +70,8 @@ namespace FusionFuryGame
             
 
             healthComponent.onEnemyDied += OnDied;
+
+            originalScale = transform.localScale; // Initialize the original scale
         }
 
         protected virtual void Update()
@@ -144,7 +152,15 @@ namespace FusionFuryGame
             // Trigger death logic if health reaches zero
             TransitionToState(deathState);
             //Destroy(gameObject);
-            gameObject.SetActive(false);
+            // Scale down before deactivating the game object
+            transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack).OnComplete(() =>
+            {
+                // After scaling down, deactivate or destroy the game object
+                gameObject.SetActive(false);
+
+                // Optionally, return the object to a pool if using object pooling
+                // PoolManager.Instance.ReturnToPool(gameObject);
+            });
         }
 
         private void OnDestroy()

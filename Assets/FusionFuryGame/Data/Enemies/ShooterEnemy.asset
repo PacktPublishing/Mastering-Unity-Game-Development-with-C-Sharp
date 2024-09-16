@@ -15,4 +15,4 @@ MonoBehaviour:
   chaseSpeed: 5
   rotationSpeed: 5
   attackRange: 10
-  floatingTextColor: {r: 1, g: 0, b: 0, a: 1}
+  floatingTextColor: {r: 1, g: 1, b: 1, a: 1}

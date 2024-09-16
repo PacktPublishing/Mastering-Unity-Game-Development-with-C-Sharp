@@ -16,7 +16,7 @@ namespace FusionFuryGame
         {
             PoolManager.Instance.AddNewPoolItem(floatingText.gameObject, 10);
 
-            StartChallengeForCurrentLevel(currentLevel);
+           // StartChallengeForCurrentLevel(currentLevel);
         }
         public void StartChallengeForCurrentLevel(int currentLevel)
         {

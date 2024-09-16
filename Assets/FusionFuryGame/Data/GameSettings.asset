@@ -15,3 +15,5 @@ MonoBehaviour:
   soundVolume: 22
   isFullScreen: 0
   graphicsQuality: 0
+  isMusicOn: 1
+  isSoundOn: 1

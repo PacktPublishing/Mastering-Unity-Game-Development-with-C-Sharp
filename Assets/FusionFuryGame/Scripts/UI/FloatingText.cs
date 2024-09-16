@@ -12,10 +12,13 @@ namespace FusionFuryGame
         private Color defaultColor;
         private Sequence floatingSequence;
         private Vector3 originalScale;
+
+        private Camera mainCamera;
         private void Awake()
         {
             originalScale = textMesh.transform.localScale;
             defaultColor = textMesh.color;
+            mainCamera = Camera.main;  // Get a reference to the main camera
         }
 
         public void Initialize(string text, Color color, Transform target)
@@ -26,6 +29,9 @@ namespace FusionFuryGame
             // Position the floating text above the target
             Vector3 targetPosition = target.position + Vector3.up * 2; // Adjust offset as needed
             transform.position = targetPosition;
+
+            FaceCamera();  // Make sure the text faces the camera
+
             // Reset any previous animation
             if (floatingSequence != null)
             {
@@ -58,6 +64,14 @@ namespace FusionFuryGame
             textMesh.transform.DOScale(Vector3.zero, duration);
             // Fade out and return to pool
             textMesh.DOFade(0, duration).OnComplete(() => ReturnToPool());
+        }
+
+        private void FaceCamera()
+        {
+            // Rotate the text to face the camera
+            Vector3 direction = transform.position - mainCamera.transform.position;
+            direction.y = 0; // Keep the text upright by nullifying the Y rotation
+            transform.rotation = Quaternion.LookRotation(direction);
         }
 
         private void ReturnToPool()

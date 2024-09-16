@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -102,7 +103,17 @@ public class SpawnManager : MonoBehaviour
             Vector3 spawnPosition = GetRandomPositionWithinBox(spawnArea.GetComponent<BoxCollider>());
             enemy.transform.position = spawnPosition;
             enemy.transform.rotation = Quaternion.identity;
+
+            // Get original scale
+            Vector3 originalScale = enemy.transform.localScale;
+
+            // Set scale to zero or a small value
+            enemy.transform.localScale = Vector3.zero;
+
             enemy.SetActive(true);
+
+            // Animate the scale from zero to the original scale
+            enemy.transform.DOScale(originalScale, 0.5f).SetEase(Ease.OutBounce); // You can tweak duration and easing as needed
 
             // Optionally, initialize the enemy here (e.g., reset health, activate behaviors)
         }

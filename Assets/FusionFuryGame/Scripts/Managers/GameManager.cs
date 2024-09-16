@@ -8,7 +8,7 @@ namespace FusionFuryGame
     {
         public PlayerData playerData;
         public GameSettings gameSettings;
-
+        public AudioClip gameMusic;
         #region Unity CallBacks
 
         private void OnEnable()
@@ -22,6 +22,7 @@ namespace FusionFuryGame
         }
         private void Start()
         {
+            AudioManager.Instance.PlayMusic(gameMusic);
             LoadGameData();
         }
         private void OnApplicationQuit()
