@@ -53,9 +53,7 @@ namespace FusionFuryGame
             {
                 VisualEffect effectInstance = Instantiate(spawnEffect, transform.position, Quaternion.identity);
                 effectInstance.transform.SetParent(transform);  // Parent it to the enemy
-            }
-
-            
+            }        
 
         }
 

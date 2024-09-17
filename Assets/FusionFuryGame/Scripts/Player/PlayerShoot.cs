@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,12 +28,13 @@ namespace FusionFuryGame
         private void OnEnable()
         {
             PlayerInput.onShoot += OnShootFire;
+            PlayerInput.onReload += OnReloadWeapon;
         }
 
         private void OnDisable()
         {
             PlayerInput.onShoot -= OnShootFire;
-
+            PlayerInput.onReload -= OnReloadWeapon;
         }
 
 
@@ -44,7 +46,7 @@ namespace FusionFuryGame
             {
                 Vector3 aimDirection = playerMovement.GetMouseAimDirection();
                 // Shoot in the forward vector of the weapon and pass player power stat
-                currentWeapon.Shoot(fireDamage, aimDirection);
+                currentWeapon.Shoot(fireDamage, aimDirection, true);
 
                 // Reset the timer
                 timeSinceLastShot = 0f;
@@ -52,6 +54,11 @@ namespace FusionFuryGame
                 // Invoke the onFire event
                 onFire.Invoke();
             }
+        }
+
+        private void OnReloadWeapon()
+        {
+            currentWeapon.ReloadAction();
         }
 
 

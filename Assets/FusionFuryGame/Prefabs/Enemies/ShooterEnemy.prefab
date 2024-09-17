@@ -544,6 +544,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 9a0832cc9c6397e4dacb7354165dfcdb, type: 2}
+  enemyRenderer: {fileID: 2543506647108927069}
+  flashMaterial: {fileID: 2100000, guid: f5c03b7d48332454cbf96bd82bc98f12, type: 2}
 --- !u!114 &8985353024877757992
 MonoBehaviour:
   m_ObjectHideFlags: 0

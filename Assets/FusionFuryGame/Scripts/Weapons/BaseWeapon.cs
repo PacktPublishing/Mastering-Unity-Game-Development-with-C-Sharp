@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO.Pipes;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace FusionFuryGame
 {
@@ -19,14 +20,16 @@ namespace FusionFuryGame
 
         // Define a fixed firing direction in world space (e.g., Vector3.up for top-down)
         [SerializeField] private Vector3 fixedFireDirection = Vector3.forward;
-
+        public static UnityAction<int> onChangeAmmo = delegate { };
+        private bool isPlayer;
         private void Start()
         {
             currentAmmo = weaponData.magazineSize;
         }
 
-        public virtual void Shoot(float fireDamage, Vector3 fireDirection)
+        public virtual void Shoot(float fireDamage, Vector3 fireDirection, bool isPlayer)
         {
+            this.isPlayer = isPlayer;
             if (isReloading) return;
 
             if (Time.time < nextFireTime)
@@ -42,7 +45,8 @@ namespace FusionFuryGame
 
             nextFireTime = Time.time + 1f / weaponData.fireRate;  // Calculate the next fire time based on the fire rate
             currentAmmo--;
-
+            if(isPlayer)
+                onChangeAmmo(currentAmmo);
 
             FireProjectile(fireDamage, fireDirection);
 
@@ -137,12 +141,17 @@ namespace FusionFuryGame
 
         //    return Vector3.zero; // Fallback value if no hit
         //}
-
+        public void ReloadAction()
+        {
+            StopAllCoroutines();
+            StartCoroutine(Reload());
+        }
         private IEnumerator Reload()
         {
             isReloading = true;
             yield return new WaitForSeconds(weaponData.reloadTime);
             currentAmmo = weaponData.magazineSize;
+            if(isPlayer) onChangeAmmo.Invoke(currentAmmo);
             isReloading = false;
         }
 

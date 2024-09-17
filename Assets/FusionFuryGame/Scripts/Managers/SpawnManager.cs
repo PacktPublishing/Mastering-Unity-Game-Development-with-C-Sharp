@@ -20,6 +20,10 @@ public class SpawnManager : MonoBehaviour
     private Dictionary<SpawnArea, bool> isSpawning;
     private Dictionary<SpawnArea, bool> isCooldown;
 
+
+    private Vector3 enemyOriginalScale;
+    private bool isOriginalScaleAssigned;
+
     private void Start()
     {
         isSpawning = new Dictionary<SpawnArea, bool>();
@@ -104,8 +108,12 @@ public class SpawnManager : MonoBehaviour
             enemy.transform.position = spawnPosition;
             enemy.transform.rotation = Quaternion.identity;
 
-            // Get original scale
-            Vector3 originalScale = enemy.transform.localScale;
+            if (!isOriginalScaleAssigned)
+            {
+                enemyOriginalScale = enemy.transform.localScale;
+                isOriginalScaleAssigned = true;
+            }
+
 
             // Set scale to zero or a small value
             enemy.transform.localScale = Vector3.zero;
@@ -113,7 +121,7 @@ public class SpawnManager : MonoBehaviour
             enemy.SetActive(true);
 
             // Animate the scale from zero to the original scale
-            enemy.transform.DOScale(originalScale, 0.5f).SetEase(Ease.OutBounce); // You can tweak duration and easing as needed
+            enemy.transform.DOScale(enemyOriginalScale, 0.5f).SetEase(Ease.OutBounce); // You can tweak duration and easing as needed
 
             // Optionally, initialize the enemy here (e.g., reset health, activate behaviors)
         }
@@ -130,7 +138,7 @@ public class SpawnManager : MonoBehaviour
         Vector3 size = box.bounds.size;
         Vector3 randomPos = new Vector3(
             UnityEngine.Random.Range(center.x - size.x / 2, center.x + size.x / 2),
-            center.y, // Assuming Y is up; adjust if necessary
+            0, // Assuming Y is up; adjust if necessary
             UnityEngine.Random.Range(center.z - size.z / 2, center.z + size.z / 2)
         );
 

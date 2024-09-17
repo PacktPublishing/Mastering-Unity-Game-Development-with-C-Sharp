@@ -20,7 +20,7 @@ namespace FusionFuryGame
             Vector3 directionToPlayer = (baseEnemy.player.position - transform.position).normalized;
             directionToPlayer.y = 0f;  // Ignore vertical aiming
             Debug.Log("SHot Start");
-            attachedWeapon.Shoot(fireDamage, directionToPlayer);
+            attachedWeapon.Shoot(fireDamage, directionToPlayer, false);
         }
 
         public float GetDamageValue()

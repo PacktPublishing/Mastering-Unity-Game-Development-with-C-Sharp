@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using Chapter6;
 using Coffee.UIEffects;
+using TMPro;
 
 namespace FusionFuryGame
 {
@@ -13,6 +14,7 @@ namespace FusionFuryGame
         [SerializeField] Image fasthealthBar;
         [SerializeField] Image slowHealthBar;
         [SerializeField] UIShiny fastHealthShiny;
+        [SerializeField] TextMeshProUGUI ammoText;
 
         private float dummyHealth= 100;
         private float previousHealth; 
@@ -22,15 +24,18 @@ namespace FusionFuryGame
             base.Start();
             HUDManager.Instance.RegisterView(this);
             previousHealth = 100f;
+            ammoText.text = 10.ToString();
         }
         private void OnEnable()
         {
             PlayerHealth.onPlayerHealthChanged += OnPlayerHealthChanged;
+            BaseWeapon.onChangeAmmo += OnPlayerAmmoChange;
         }
 
         private void OnDisable()
         {
             PlayerHealth.onPlayerHealthChanged -= OnPlayerHealthChanged;
+            BaseWeapon.onChangeAmmo -= OnPlayerAmmoChange;
         }
 
         void OnPlayerHealthChanged(float newHealth)
@@ -71,7 +76,13 @@ namespace FusionFuryGame
             previousHealth = newHealth;
         }
 
+        void OnPlayerAmmoChange(int newAmmo)
+        {
+            if (newAmmo < 0) { return; }
 
+            ammoText.text = newAmmo.ToString();
+
+        }
         [ContextMenu("Test Damage")]
         public void TestTakeDamage()
         {

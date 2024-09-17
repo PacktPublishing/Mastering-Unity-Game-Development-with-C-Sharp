@@ -22,7 +22,7 @@ namespace FusionFuryGame
         }
         private void Start()
         {
-            AudioManager.Instance.PlayMusic(gameMusic);
+            AudioManager.Instance.PlayMusic(gameMusic, 0.3f);
             LoadGameData();
         }
         private void OnApplicationQuit()

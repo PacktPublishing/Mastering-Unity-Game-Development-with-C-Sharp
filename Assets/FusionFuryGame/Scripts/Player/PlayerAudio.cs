@@ -1,18 +1,44 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class PlayerAudio : MonoBehaviour
+namespace FusionFuryGame
 {
-    // Start is called before the first frame update
-    void Start()
+    public class PlayerAudio : MonoBehaviour
     {
-        
-    }
+        public AudioClip shootSound;
+        public AudioClip hitSound;
+        public AudioClip abilitySound;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void OnEnable()
+        {
+            PlayerInput.onShoot += PlayShootSound;
+            PlayerInput.onAbility += PlayAbilitySound;
+            PlayerCollision.onPlayerGetHit += PlayHitSound;
+        }
+
+        private void OnDisable()
+        {
+            PlayerInput.onShoot -= PlayShootSound;
+            PlayerInput.onAbility -= PlayAbilitySound;
+            PlayerCollision.onPlayerGetHit -= PlayHitSound;
+        }
+
+
+        private void PlayShootSound()
+        {
+            AudioManager.Instance.PlaySFX(shootSound, 2);
+        }
+
+        private void PlayHitSound()
+        {
+            AudioManager.Instance.PlaySFX(hitSound, 8);
+
+        }
+
+        private void PlayAbilitySound()
+        {
+            AudioManager.Instance.PlaySFX(abilitySound , 2);
+        }
     }
 }
