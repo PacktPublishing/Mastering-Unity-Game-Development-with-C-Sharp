@@ -28,6 +28,17 @@ namespace FusionFuryGame
                 // Update the last attack time to the current time
                 lastAttackTime = Time.time;
             }
+
+            // Transition to ChaseState if player is in sight but not in range
+            if (!enemy.PlayerInRange() && enemy.PlayerInSight())
+            {
+                enemy.TransitionToState(enemy.chaseState);
+            }
+            // Transition to WanderState if player is neither in range nor in sight
+            else if (!enemy.PlayerInSight() && !enemy.PlayerInRange())
+            {
+                enemy.TransitionToState(enemy.wanderState);
+            }
         }
 
 

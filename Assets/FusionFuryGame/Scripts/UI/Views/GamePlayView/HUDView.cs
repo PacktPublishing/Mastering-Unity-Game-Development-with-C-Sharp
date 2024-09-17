@@ -6,6 +6,7 @@ using DG.Tweening;
 using Chapter6;
 using Coffee.UIEffects;
 using TMPro;
+using UnityEngine.Events;
 
 namespace FusionFuryGame
 {
@@ -15,10 +16,16 @@ namespace FusionFuryGame
         [SerializeField] Image slowHealthBar;
         [SerializeField] UIShiny fastHealthShiny;
         [SerializeField] TextMeshProUGUI ammoText;
-
+        
+        //Ability Button
+        [SerializeField] Button abilityButton;
+        [SerializeField] Image fillingAbilityImage;
+        [SerializeField] private float abilityCooldownTime = 10f;  // Set cooldown time for the ability
+        [SerializeField] UIShiny fillingImageShiny;
         private float dummyHealth= 100;
         private float previousHealth; 
 
+        public static UnityAction onAbilityPressed = delegate { };
         protected override void Start()
         {
             base.Start();
@@ -30,12 +37,14 @@ namespace FusionFuryGame
         {
             PlayerHealth.onPlayerHealthChanged += OnPlayerHealthChanged;
             BaseWeapon.onChangeAmmo += OnPlayerAmmoChange;
+            abilityButton.onClick.AddListener(OnAbilityPressed);
         }
 
         private void OnDisable()
         {
             PlayerHealth.onPlayerHealthChanged -= OnPlayerHealthChanged;
             BaseWeapon.onChangeAmmo -= OnPlayerAmmoChange;
+            abilityButton.onClick?.RemoveListener(OnAbilityPressed);
         }
 
         void OnPlayerHealthChanged(float newHealth)
@@ -91,6 +100,41 @@ namespace FusionFuryGame
         }
         //here player health 
 
+        private void OnAbilityPressed()
+        {
+            fillingImageShiny.effectPlayer.play = false;
+            // Disable the button
+            abilityButton.interactable = false;
+
+            // Set fill amount to 0
+            fillingAbilityImage.fillAmount = 0;
+
+            // Invoke ability usage
+            onAbilityPressed.Invoke();
+
+            // Start cooldown coroutine to refill image and enable button
+            StartCoroutine(HandleAbilityCooldown());
+        }
+
+        private IEnumerator HandleAbilityCooldown()
+        {
+            float elapsedTime = 0f;
+
+            while (elapsedTime < abilityCooldownTime)
+            {
+                elapsedTime += Time.deltaTime;
+
+                // Calculate and set the fill amount
+                fillingAbilityImage.fillAmount = elapsedTime / abilityCooldownTime;
+
+                yield return null;
+            }
+            fillingImageShiny.effectPlayer.play = true;
+
+
+            // Cooldown complete, re-enable the button
+            abilityButton.interactable = true;
+        }
 
     }
 }

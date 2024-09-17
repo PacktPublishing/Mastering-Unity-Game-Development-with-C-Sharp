@@ -16,13 +16,13 @@ namespace FusionFuryGame
 
         private void OnEnable()
         {
-            PlayerInput.onAbility += OnAbilityPressed;
+            HUDView.onAbilityPressed += OnAbilityPressed;
             PlayerEffects.onParticleFinish += ActiviateAbility;
         }
 
         private void OnDisable()
         {
-            PlayerInput.onAbility -= OnAbilityPressed;
+            HUDView.onAbilityPressed -= OnAbilityPressed;
             PlayerEffects.onParticleFinish -= ActiviateAbility;
         }
 

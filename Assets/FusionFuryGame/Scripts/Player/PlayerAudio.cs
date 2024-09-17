@@ -13,14 +13,14 @@ namespace FusionFuryGame
         private void OnEnable()
         {
             PlayerInput.onShoot += PlayShootSound;
-            PlayerInput.onAbility += PlayAbilitySound;
+            HUDView.onAbilityPressed += PlayAbilitySound;
             PlayerCollision.onPlayerGetHit += PlayHitSound;
         }
 
         private void OnDisable()
         {
             PlayerInput.onShoot -= PlayShootSound;
-            PlayerInput.onAbility -= PlayAbilitySound;
+            HUDView.onAbilityPressed -= PlayAbilitySound;
             PlayerCollision.onPlayerGetHit -= PlayHitSound;
         }
 

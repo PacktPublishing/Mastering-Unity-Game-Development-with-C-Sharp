@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;  // Add this for EventSystem
 
 namespace FusionFuryGame
 {
@@ -50,7 +51,7 @@ namespace FusionFuryGame
 
         public void OnShoot(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Started)
+            if (context.phase == InputActionPhase.Started && !IsPointerOverUI())
                 onShoot.Invoke();
         }
 
@@ -63,7 +64,17 @@ namespace FusionFuryGame
         public void OnAbility(InputAction.CallbackContext context)
         {
             if (context.phase == InputActionPhase.Started)
-                onAbility.Invoke();
+            {
+                //now i'm using UI for that
+                //onAbility.Invoke();
+            }
+        }
+
+        // This method checks if the pointer is over any UI element
+        private bool IsPointerOverUI()
+        {
+            // Returns true if the pointer is over a UI element
+            return EventSystem.current.IsPointerOverGameObject();
         }
     }
 }
