@@ -49,7 +49,7 @@ namespace FusionFuryGame
         public void TakeDamage(float damage)
         {
             // Implement logic to handle taking damage
-            CurrentHealth -= damage *0.2f;
+            CurrentHealth -= damage * 0.1f;
             onPlayerHealthChanged.Invoke(CurrentHealth);
         }
 

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 6
   jumpForce: 5
-  dashForce: 12
+  dashForce: 5
   dashCooldown: 1.5
   rotationSpeed: 50

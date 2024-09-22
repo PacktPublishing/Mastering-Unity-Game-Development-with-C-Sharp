@@ -75,7 +75,6 @@ namespace FusionFuryGame
 
             // Instantiate the projectile from the object pool
             GameObject projectileObject = PoolManager.Instance.GetPooledObject(weaponData.projectileData.attachedProjectile.name);
-
             if (projectileObject != null)
             {
                 // Set the position of the projectile to the muzzle's position
@@ -90,9 +89,9 @@ namespace FusionFuryGame
                 {
                     // Modify the fire damage by adding the current weapon's power
                     float modifiedDamage = fireDamage + weaponData.weaponPower;
-
+                    
                     // Set the damage value on the instantiated projectile
-                    projectileComponent.SetDamageValue(modifiedDamage);
+                    projectileComponent.SetDamageValue(Random.Range(modifiedDamage, modifiedDamage * 1.75f));
 
                     // Set the direction for the projectile (in the player's aim direction)
                     projectileComponent.SetDirection(fireDirection);

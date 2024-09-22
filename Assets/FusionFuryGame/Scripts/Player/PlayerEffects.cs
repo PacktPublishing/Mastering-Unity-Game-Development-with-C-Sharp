@@ -14,6 +14,7 @@ namespace FusionFuryGame
     {
         private CinemachineImpulseSource cinemachineImpulse;
         [SerializeField] ParticleSystem specialShotEffect;
+        [SerializeField] ParticleSystem muzzleEffect;
         public static UnityAction onParticleFinish = delegate { };
 
         // Post-processing volume reference
@@ -85,6 +86,7 @@ namespace FusionFuryGame
         private void ApplyShootFireEffect()
         {
             cinemachineImpulse.GenerateImpulse();
+            muzzleEffect?.Play();
         }
 
 

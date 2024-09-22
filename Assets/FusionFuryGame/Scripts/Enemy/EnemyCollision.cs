@@ -41,7 +41,7 @@ namespace FusionFuryGame
 
                     var floatingText = PoolManager.Instance.GetPooledObject("Floating Text").GetComponent<FloatingText>();
                     // Initialize the floating text with the damage value and the color from EnemyData
-                    floatingText.Initialize(playerDamage.GetDamageValue().ToString(), enemyData.floatingTextColor, transform);
+                    floatingText.Initialize(playerDamage.GetDamageValue().ToString("00"), enemyData.floatingTextColor, transform);
                 }
             }
         }

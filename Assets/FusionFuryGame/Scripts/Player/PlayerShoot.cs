@@ -14,6 +14,7 @@ namespace FusionFuryGame
         [SerializeField] private float shootingInterval = 0.5f;  // Set the shooting interval in seconds
         private float timeSinceLastShot = 0f;
         private PlayerMovement playerMovement;
+
         private void Start()
         {
             playerMovement = GetComponent<PlayerMovement>();
@@ -64,9 +65,8 @@ namespace FusionFuryGame
 
         public void ShootForAbility()
         {
-            Vector3 aimDirection = playerMovement.GetMouseAimDirection();
             // Special shooting logic for abilities
-            currentWeapon.ShootAbility(fireDamage, transform.forward);
+            currentWeapon.ShootAbility(fireDamage * 2f, transform.forward * 3f);
         }
     }
 }
