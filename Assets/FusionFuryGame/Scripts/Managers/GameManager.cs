@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace FusionFuryGame
 {
@@ -24,6 +25,14 @@ namespace FusionFuryGame
         {
             AudioManager.Instance.PlayMusic(gameMusic, 0.3f);
             LoadGameData();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                SceneManager.LoadScene(0);
+            }
         }
         private void OnApplicationQuit()
         {

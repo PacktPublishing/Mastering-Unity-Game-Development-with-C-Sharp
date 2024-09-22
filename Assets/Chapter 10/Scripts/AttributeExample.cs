@@ -2,8 +2,11 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using System;
 using Unity.Collections;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
+#if UNITY_EDITOR
 [HelpURL("URL")]
 [AddComponentMenu("Custom/Attribute Example")] [ExecuteAlways] [CanEditMultipleObjects]
 public class AttributeExample : MonoBehaviour
@@ -24,3 +27,4 @@ public class AttributeExample : MonoBehaviour
         gameObject.AddComponent<Rigidbody>();
     }
 }
+#endif
