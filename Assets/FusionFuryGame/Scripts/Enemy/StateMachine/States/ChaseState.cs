@@ -12,16 +12,20 @@ namespace FusionFuryGame
         }
 
         public void UpdateState(BaseEnemy enemy)
-        { 
+        {
             ChasePlayer(enemy);
-            
-            if (enemy.PlayerInRange())
+
+            float distanceToPlayer = Vector3.Distance(enemy.transform.position, enemy.player.position);
+
+            // Transition to AttackState if player is within attack range
+            if (distanceToPlayer <= enemy.attackRange)
             {
                 enemy.TransitionToState(enemy.attackState);
             }
-            else if(!enemy.IsIdleConditionMet())
+            // Transition to WanderState if player is outside chase range
+            else if (distanceToPlayer > enemy.chaseRange)
             {
-                enemy.TransitionToState(enemy.idleState);
+                enemy.TransitionToState(enemy.wanderState);
             }
         }
 
@@ -33,30 +37,28 @@ namespace FusionFuryGame
         private void StartChaseBehavior(BaseEnemy enemy)
         {
             if (enemy.player == null) return;
-
-            enemy.navMeshAgent.SetDestination(enemy.player.position);
+            enemy.navMeshAgent?.SetDestination(enemy.player.position);
         }
 
         private void ChasePlayer(BaseEnemy enemy)
         {
             LookAtPlayer(enemy);
-            enemy.navMeshAgent.speed = enemy.chaseSpeed;
+            enemy.navMeshAgent.speed = enemy.enemyData.chaseSpeed;
         }
 
         private void StopChaseBehavior(BaseEnemy enemy)
         {
-            enemy.navMeshAgent.ResetPath();
+            enemy.navMeshAgent?.ResetPath();
         }
 
         private void LookAtPlayer(BaseEnemy enemy)
         {
-            if (enemy.player == null) return ;
+            if (enemy.player == null) return;
 
-            // Example: Make the enemy face the player while chasing
             Vector3 lookDirection = enemy.player.position - enemy.transform.position;
-            lookDirection.y = 0;  // Keep the enemy's rotation in the horizontal plane
+            lookDirection.y = 0;
             Quaternion rotation = Quaternion.LookRotation(lookDirection);
-            enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, rotation, Time.deltaTime * enemy.rotationSpeed);
+            enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, rotation, Time.deltaTime * enemy.enemyData.rotationSpeed);
         }
     }
 }

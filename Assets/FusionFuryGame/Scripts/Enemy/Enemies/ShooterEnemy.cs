@@ -6,6 +6,9 @@ namespace FusionFuryGame
 {
     public class ShooterEnemy : BaseEnemy
     {
-        
+        public override void AttackPlayer()
+        {
+            shootComponent.FireShot();
+        }
     }
 }

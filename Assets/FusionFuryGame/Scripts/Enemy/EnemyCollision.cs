@@ -12,11 +12,20 @@ namespace FusionFuryGame
         [SerializeField] private Renderer enemyRenderer;
         [SerializeField] private Material flashMaterial;
         private Material originalMaterial;
+        private void Awake()
+        {
+            originalMaterial = enemyRenderer.material; // Cache original material
+        }
+
+        private void OnEnable()
+        {
+            enemyRenderer.material = originalMaterial;
+        }
         private void Start()
         {
             healthComponent = GetComponent<EnemyHealth>();
 
-            originalMaterial = enemyRenderer.material; // Cache original material
+           
 
         }
         //we can also make layers for them and reduce calculations of collision in layer matrix in project settings 

@@ -20538,6 +20538,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   specialShotEffect: {fileID: 5845116628723374459}
+  abilityChromaticAberration: 0.5
+  dashMotionBlurIntensity: 1
+  dashLensDistortionIntensity: -0.3
 --- !u!114 &3196141478186953107
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,14 +7,32 @@ namespace FusionFuryGame
 {
     public class WanderState : IEnemyState
     {
-        private float wanderTime = 5f; // Set the duration for which the enemy wanders
-        private float timer; // Timer to track the wandering time
+        private float wanderTime = 5f;
+        private float timer;
 
         public void EnterState(BaseEnemy enemy)
         {
             timer = 0f;
-
             StartWanderBehavior(enemy);
+        }
+
+        public void UpdateState(BaseEnemy enemy)
+        {
+            timer += Time.deltaTime;
+
+            float distanceToPlayer = Vector3.Distance(enemy.transform.position, enemy.player.position);
+
+            // Transition to ChaseState if player enters chase range
+            if (distanceToPlayer <= enemy.chaseRange)
+            {
+                enemy.TransitionToState(enemy.chaseState);
+            }
+
+            // Continue wandering if the player is outside the chase range
+            if (timer >= wanderTime)
+            {
+                enemy.TransitionToState(enemy.idleState);
+            }
         }
 
         public void ExitState(BaseEnemy enemy)
@@ -22,31 +40,15 @@ namespace FusionFuryGame
             StopWanderBehavior(enemy);
         }
 
-        public void UpdateState(BaseEnemy enemy)
-        {
-            timer += Time.deltaTime;
-
-            if (timer >= wanderTime)
-            {
-                enemy.TransitionToState(enemy.idleState);
-            }else if (enemy.PlayerInSight())
-            {
-                enemy.TransitionToState(enemy.chaseState);
-            }else if (enemy.PlayerInRange())
-            {
-                enemy.TransitionToState(enemy.attackState);
-            }
-        }
-
         private void StartWanderBehavior(BaseEnemy enemy)
         {
             Vector3 randomPosition = GetRandomPosition(enemy);
-            enemy.navMeshAgent.SetDestination(randomPosition);
+            enemy.navMeshAgent?.SetDestination(randomPosition);
         }
 
         private void StopWanderBehavior(BaseEnemy enemy)
         {
-            enemy.navMeshAgent.ResetPath();
+            enemy.navMeshAgent?.ResetPath();
         }
 
         private Vector3 GetRandomPosition(BaseEnemy enemy)
@@ -54,7 +56,7 @@ namespace FusionFuryGame
             float wanderRadius = 10f;
             Vector3 randomDirection = Random.insideUnitSphere * wanderRadius;
             randomDirection += enemy.transform.position;
-            randomDirection.y = enemy.transform.position.y; // Keep the same height
+            randomDirection.y = enemy.transform.position.y;
             return randomDirection;
         }
     }

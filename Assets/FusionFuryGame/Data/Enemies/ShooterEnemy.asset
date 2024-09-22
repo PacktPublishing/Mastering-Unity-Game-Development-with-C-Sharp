@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f159bb103e206649b5c33a95c0525da, type: 3}
   m_Name: ShooterEnemy
   m_EditorClassIdentifier: 
-  chaseSpeed: 5
-  rotationSpeed: 5
+  chaseSpeed: 15
+  rotationSpeed: 15
   attackRange: 10
   floatingTextColor: {r: 1, g: 1, b: 1, a: 1}

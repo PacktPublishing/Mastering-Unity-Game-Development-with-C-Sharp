@@ -8,11 +8,11 @@ public class SpawnManager : MonoBehaviour
     [System.Serializable]
     public struct SpawnSettings
     {
-        public string enemyKey;           // Key to retrieve the enemy from the pool
-        public int enemiesPerWave;        // Number of enemies per wave
-        public int numberOfWaves;         // Total number of waves
-        public float timeBetweenWaves;    // Time between each wave
-        public float cooldownTime;        // Cooldown before allowing spawning again
+        public string[] enemyKeys;         // Array of enemy keys to spawn from
+        public int enemiesPerWave;         // Number of enemies per wave
+        public int numberOfWaves;          // Total number of waves
+        public float timeBetweenWaves;     // Time between each wave
+        public float cooldownTime;         // Cooldown before allowing spawning again
     }
 
     public SpawnSettings[] spawnAreasSettings; // Settings for each SpawnArea
@@ -20,10 +20,11 @@ public class SpawnManager : MonoBehaviour
     private Dictionary<SpawnArea, bool> isSpawning;
     private Dictionary<SpawnArea, bool> isCooldown;
 
-
     private Vector3 enemyOriginalScale;
     private bool isOriginalScaleAssigned;
 
+    private readonly float minEnemySize = 0.65f;
+    private readonly float maxEnemySize = 0.9f;
     private void Start()
     {
         isSpawning = new Dictionary<SpawnArea, bool>();
@@ -80,7 +81,9 @@ public class SpawnManager : MonoBehaviour
         {
             for (int i = 0; i < settings.enemiesPerWave; i++)
             {
-                SpawnEnemy(settings.enemyKey, spawnArea);
+                // Choose a random enemy key from the list of enemyKeys
+                string randomEnemyKey = GetRandomEnemyKey(settings.enemyKeys);
+                SpawnEnemy(randomEnemyKey, spawnArea);
                 yield return new WaitForSeconds(0.5f); // Optional: Time between enemy spawns within a wave
             }
 
@@ -108,11 +111,13 @@ public class SpawnManager : MonoBehaviour
             enemy.transform.position = spawnPosition;
             enemy.transform.rotation = Quaternion.identity;
 
-            if (!isOriginalScaleAssigned)
-            {
-                enemyOriginalScale = enemy.transform.localScale;
-                isOriginalScaleAssigned = true;
-            }
+            float randValue = Random.Range(minEnemySize, maxEnemySize);
+            // Randomize scale between minScale and maxScale
+            Vector3 randomScale = new Vector3(
+               randValue,
+                randValue,
+                randValue
+            );
 
 
             // Set scale to zero or a small value
@@ -121,7 +126,7 @@ public class SpawnManager : MonoBehaviour
             enemy.SetActive(true);
 
             // Animate the scale from zero to the original scale
-            enemy.transform.DOScale(enemyOriginalScale, 0.5f).SetEase(Ease.OutBounce); // You can tweak duration and easing as needed
+            enemy.transform.DOScale(randomScale, 0.5f).SetEase(Ease.OutBounce); // You can tweak duration and easing as needed
 
             // Optionally, initialize the enemy here (e.g., reset health, activate behaviors)
         }
@@ -143,5 +148,12 @@ public class SpawnManager : MonoBehaviour
         );
 
         return randomPos;
+    }
+
+    // Select a random enemy key from the list of available enemy keys
+    private string GetRandomEnemyKey(string[] enemyKeys)
+    {
+        int randomIndex = Random.Range(0, enemyKeys.Length);
+        return enemyKeys[randomIndex];
     }
 }

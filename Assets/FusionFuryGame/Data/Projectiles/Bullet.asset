@@ -17,6 +17,6 @@ MonoBehaviour:
   hitEffectPrefab: {fileID: 2965222256817593503, guid: a164e676dbbd6e54587237e619372c98,
     type: 3}
   speed: 20
-  attachedProjectile: {fileID: 4555234584992698021, guid: 513835cba4469994598e6b4c9178dcb5,
+  attachedProjectile: {fileID: 4219630317973999117, guid: 301d714d37a6e214e9bf21a33c93c344,
     type: 3}
   tag: PlayerProjectile

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa6e352a1acd3c24fa0c9ab23c1bc12e, type: 3}
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 6
   jumpForce: 5
-  dashForce: 10
-  dashCooldown: 2
+  dashForce: 12
+  dashCooldown: 1.5
   rotationSpeed: 50

@@ -558,6 +558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ef39ec416f4a246a046d0149bf0d2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyData: {fileID: 11400000, guid: 9a0832cc9c6397e4dacb7354165dfcdb, type: 2}
   player: {fileID: 0}
   navMeshAgent: {fileID: 0}
   attackRange: 5

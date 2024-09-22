@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,12 +9,13 @@ using UnityEngine.VFX;
 namespace FusionFuryGame
 {
 
-    [RequireComponent(typeof(EnemyHealth) , typeof(EnemyAnimations) , typeof(EnemyShoot)) ]
-    [RequireComponent(typeof(EnemyCollision))]
+    [RequireComponent(typeof(EnemyHealth) , typeof(EnemyAnimations) , typeof(EnemyCollision)) ]
+    
     public abstract class BaseEnemy : MonoBehaviour  
     {
+        public EnemyData enemyData;
         public Transform player;
-        [HideInInspector] public NavMeshAgent navMeshAgent;
+        public NavMeshAgent navMeshAgent;
 
         // Reference to the current state
         protected IEnemyState currentState;
@@ -26,6 +28,8 @@ namespace FusionFuryGame
         public IEnemyState chaseState;
 
         public float attackRange = 5f;
+        public float chaseRange = 10f;
+        public float wanderRange = 15f;
 
         [SerializeField] internal float chaseSpeed;
         [SerializeField] internal float rotationSpeed;
@@ -36,7 +40,7 @@ namespace FusionFuryGame
         [SerializeField] VisualEffect spawnEffect;
 
         private Vector3 originalScale; // Store the original scale of the enemy
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             // Initialize states
             wanderState = new WanderState();
@@ -44,9 +48,11 @@ namespace FusionFuryGame
             attackState = new AttackState();
             chaseState = new ChaseState();
             deathState = new DeathState();
-
+            navMeshAgent = GetComponent<NavMeshAgent>();
+            
+            ResetEnemy();
             // Set initial state
-            currentState = wanderState;
+
             healthComponent = GetComponent<EnemyHealth>();
 
             if (spawnEffect)
@@ -62,14 +68,32 @@ namespace FusionFuryGame
 
             // Get references
             player = GameObject.FindGameObjectWithTag("Player").transform;
-            navMeshAgent = GetComponent<NavMeshAgent>();
             animationComponent = GetComponent<EnemyAnimations>();
             shootComponent = GetComponent<EnemyShoot>();
             
 
             healthComponent.onEnemyDied += OnDied;
 
-            originalScale = transform.localScale; // Initialize the original scale
+            //originalScale = transform.localScale; // Initialize the original scale
+        }
+
+        private void ResetEnemy()
+        {
+            // Reset health, scale, and any necessary components
+            // Ensure the NavMeshAgent is enabled and set its position on the NavMesh
+                                                            // Enable the NavMeshAgent and reset path after delay
+            if (navMeshAgent != null && !navMeshAgent.isOnNavMesh)
+            {
+                NavMeshHit hit;
+                if (NavMesh.SamplePosition(transform.position, out hit, 1.0f, NavMesh.AllAreas))
+                {
+                    navMeshAgent.Warp(hit.position);  // Teleport to a valid NavMesh position
+                }
+            }
+            navMeshAgent.enabled = true;
+            navMeshAgent.ResetPath();
+            transform.localScale = originalScale;
+            TransitionToState(wanderState);
         }
 
         protected virtual void Update()
@@ -165,6 +189,8 @@ namespace FusionFuryGame
         {
             healthComponent.onEnemyDied -= OnDied;
         }
+
+        public abstract void AttackPlayer();
 
     }
 }

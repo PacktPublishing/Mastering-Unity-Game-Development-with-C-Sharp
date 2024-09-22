@@ -6,6 +6,9 @@ namespace FusionFuryGame
 {
     public class ChargingEnemy : BaseEnemy
     {
-        
+        public override void AttackPlayer()
+        {
+            
+        }
     }
 }
